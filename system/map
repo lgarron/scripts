@@ -1,0 +1,6 @@
+#!/bin/bash
+
+COMMAND="${1}"
+
+# TODO: Rewrite using http://docs.python.org/2/library/glob.html
+ls "${@:2}" | parallel "${COMMAND}"
