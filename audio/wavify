@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 if [ "$#" -lt "1" ]
 then
   SCRIPT_NAME=$(basename "${0}")
@@ -7,11 +9,12 @@ then
   exit 1
 fi
 
+IN_FILE="${1}"
 OUT_FILE="${2}"
 
 if [ -z "${OUT_FILE}" ]
 then
-  OUT_FILE="${1}.wav"
+  OUT_FILE="${IN_FILE}.wav"
 fi
 
-ffmpeg -i "${1}" -f wav -c:a copy "${OUT_FILE}"
+ffmpeg -i "${IN_FILE}" -f wav -c:a copy "${OUT_FILE}"

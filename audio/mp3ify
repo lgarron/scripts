@@ -1,5 +1,22 @@
 #!/bin/bash
 
+set -euo pipefail
+
+if [ "$#" -lt "1" ]
+then
+  SCRIPT_NAME=$(basename "${0}")
+  echo "Usage: ${SCRIPT_NAME} in-file.anything [out-file.flac]"
+  exit 1
+fi
+
+IN_FILE="${1}"
+OUT_FILE="${2}"
+
+if [ -z "${OUT_FILE}" ]
+then
+  OUT_FILE="${IN_FILE}.mp3"
+fi
+
 command_exists () {
     type "$1" &> /dev/null ;
 }
@@ -14,16 +31,15 @@ function convert_wav_to_mp3 {
   fi
 }
 
-
 FILE_TYPE="${1##*.}"
 
 if [ "${FILE_TYPE}" = "wav" ]
 then
-  convert_wav_to_mp3 "${1}" "${1}.mp3"
+  convert_wav_to_mp3 "${IN_FILE}" 
 else
-  TEMP=`mktemp "$1.XXXX"`
+  TEMP=$(mktemp "$1.XXXX")
   rm "${TEMP}"
-  wavify "$1" "${TEMP}"
-  convert_wav_to_mp3 "${TEMP}" "${1}.mp3"
+  wavify "${IN_FILE}" "${TEMP}" "${OUT_FILE}"
+  convert_wav_to_mp3 "${TEMP}" "${OUT_FILE}"
   rm "${TEMP}"
 fi
