@@ -1,0 +1,29 @@
+#!/bin/bash
+
+command_exists () {
+    type "$1" &> /dev/null ;
+}
+
+function convert_wav_to_mp3 {
+  if command_exists lame
+  then
+    lame --preset extreme "${1}" "${2}"
+  else
+    # 256k is a decent tradeoff for files that might still be reprocessed in the future.
+    ffmpeg -i "${1}" -ab 256k "${2}"
+  fi
+}
+
+
+FILE_TYPE="${1##*.}"
+
+if [ "${FILE_TYPE}" = "wav" ]
+then
+  convert_wav_to_mp3 "${1}" "${1}.mp3"
+else
+  TEMP=`mktemp "$1.XXXX"`
+  rm "${TEMP}"
+  wavify "$1" "${TEMP}"
+  convert_wav_to_mp3 "${TEMP}" "${1}.mp3"
+  rm "${TEMP}"
+fi
