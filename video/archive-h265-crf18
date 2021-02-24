@@ -28,5 +28,9 @@ nice -n 20 \
     -c:a aac \
     -b:a 128k \
     -tag:v hvc1 \
+    -vf scale=out_color_matrix=bt709 -color_primaries bt709 -color_trc bt709 -colorspace bt709 \
     "${OUT_FILE}" \
   && touch -r "${1}" "${OUT_FILE}"
+
+#    -vf scale=out_color_matrix=bt709 -color_primaries bt709 -color_trc bt709
+#    -colorspace bt709 \ # https://stackoverflow.com/a/53806290
