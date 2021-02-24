@@ -1,5 +1,14 @@
 #!/bin/bash
 
+set -euo pipefail
+
+if [ "$#" -lt "1" ]
+then
+  SCRIPT_NAME=$(basename "${0}")
+  echo "Usage: ${SCRIPT_NAME} URL file.webloc"
+  exit 1
+fi
+
 URL="${1}"
 FILE_NAME="${2}"
 
