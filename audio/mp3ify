@@ -10,11 +10,12 @@ then
 fi
 
 IN_FILE="${1}"
-OUT_FILE="${2}"
 
-if [ -z "${OUT_FILE}" ]
+if [ "$#" -lt "2" ]
 then
   OUT_FILE="${IN_FILE}.mp3"
+else
+  OUT_FILE="${2}"
 fi
 
 command_exists () {
