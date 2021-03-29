@@ -10,13 +10,7 @@ then
 fi
 
 IN_FILE="${1}"
-
-if [ "$#" -lt "2" ]
-then
-  OUT_FILE="${IN_FILE}.mp3"
-else
-  OUT_FILE="${2}"
-fi
+OUT_FILE="${2:-${IN_FILE}.wav}"
 
 command_exists () {
     type "$1" &> /dev/null ;
@@ -40,7 +34,7 @@ then
 else
   TEMP=$(mktemp "$1.XXXX")
   rm "${TEMP}"
-  wavify "${IN_FILE}" "${TEMP}" "${OUT_FILE}"
+  wavify "${IN_FILE}" "${TEMP}"
   convert_wav_to_mp3 "${TEMP}" "${OUT_FILE}"
   rm "${TEMP}"
 fi

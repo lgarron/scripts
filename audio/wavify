@@ -10,11 +10,6 @@ then
 fi
 
 IN_FILE="${1}"
-OUT_FILE="${2}"
+OUT_FILE="${2:-${IN_FILE}.wav}"
 
-if [ -z "${OUT_FILE}" ]
-then
-  OUT_FILE="${IN_FILE}.wav"
-fi
-
-ffmpeg -i "${IN_FILE}" -f wav -c:a copy "${OUT_FILE}"
+ffmpeg -i "${IN_FILE}" -f wav "${OUT_FILE}"
