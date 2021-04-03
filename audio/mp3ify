@@ -10,7 +10,7 @@ then
 fi
 
 IN_FILE="${1}"
-OUT_FILE="${2:-${IN_FILE}.wav}"
+OUT_FILE="${2:-${IN_FILE}.mp3}"
 
 command_exists () {
     type "$1" &> /dev/null ;
