@@ -19,10 +19,10 @@ command_exists () {
 function convert_wav_to_mp3 {
   if command_exists lame
   then
-    lame --preset extreme "${1}" "${2}"
+    lame --preset extreme "${IN_FILE}" "${OUT_FILE}"
   else
     # 256k is a decent tradeoff for files that might still be reprocessed in the future.
-    ffmpeg -i "${1}" -ab 256k "${2}"
+    ffmpeg -i "${IN_FILE}" -ab 256k "${OUT_FILE}"
   fi
 }
 
