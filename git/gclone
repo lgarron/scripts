@@ -23,7 +23,12 @@ if [[ "${REPO_URL}" =~ ^https://github.com/ ]]; then
   cd "${FOLDER}"
   open "${FOLDER}"
   code "${FOLDER}"
-  git clone "${REPO_URL}" .
+  if [ -f ".git" ] || [ -d ".git" ]
+  then
+    echo "Already checked out."
+  else 
+     git clone "${REPO_URL}" .
+  fi
 else
   echo "Invalid URL: ${REPO_URL}"
 fi
