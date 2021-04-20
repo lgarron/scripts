@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -euo pipefail
+
+if [ "$#" -lt "1" ]
+then
+  SCRIPT_NAME=$(basename "${0}")
+  echo "Usage: ${SCRIPT_NAME} https://github.com/account/repo"
+  exit 1
+fi
+
+GITHUB_PATH="${HOME}/Code/git/github.com"
+REPO_URL="${1}"
+
+if [[ "${REPO_URL}" =~ ^https://github.com/ ]]; then
+  URL_PATH=${REPO_URL#"https://github.com/"}
+  REPO=${URL_PATH%".git"}
+  IFS="/"
+  read -a PARTS <<< "${REPO}"
+
+  FOLDER="${GITHUB_PATH}/${PARTS[0]}/${PARTS[1]}"
+  mkdir -p "${FOLDER}"
+  cd "${FOLDER}"
+  open "${FOLDER}"
+  code "${FOLDER}"
+  git clone "${REPO_URL}" .
+else
+  echo "Invalid URL: ${REPO_URL}"
+fi
