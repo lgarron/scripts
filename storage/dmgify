@@ -1,8 +1,8 @@
 #!/usr/bin/env fish
 
-set INPUT_FOLDER $argv[1]
+set INPUT_ARG $argv[1]
 
-if test ! -d "$INPUT_FOLDER"
+if test ! -d "$INPUT_ARG"
   set SCRIPT_NAME (basename (status -f))
   echo "Usage: $SCRIPT_NAME /path/to-folder"
   echo ""
@@ -14,6 +14,7 @@ if test ! -d "$INPUT_FOLDER"
   exit
 end
 
+set INPUT_FOLDER (string trim --right --chars=/ $argv[1])
 set BASENAME (basename $INPUT_FOLDER)
 set OUTPUT_DMG "$INPUT_FOLDER (readonly archive).dmg"
 
