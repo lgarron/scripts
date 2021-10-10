@@ -17,8 +17,9 @@ if [[ "${REPO_URL}" =~ ^https://github.com/ ]]; then
   REPO=${URL_PATH%".git"}
   IFS="/"
   read -a PARTS <<< "${REPO}"
+  REPO_PATH="${PARTS[0]}/${PARTS[1]}"
 
-  FOLDER="${GITHUB_PATH}/${PARTS[0]}/${PARTS[1]}"
+  FOLDER="${GITHUB_PATH}/${REPO_PATH}"
   mkdir -p "${FOLDER}"
   cd "${FOLDER}"
   open "${FOLDER}"
@@ -27,7 +28,7 @@ if [[ "${REPO_URL}" =~ ^https://github.com/ ]]; then
   then
     echo "Already checked out."
   else 
-     git clone "${REPO_URL}" .
+     git clone "https://github.com/${REPO_PATH}" .
   fi
 else
   echo "Invalid URL: ${REPO_URL}"
