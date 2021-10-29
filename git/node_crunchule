@@ -1,18 +1,27 @@
 #!/usr/bin/env fish
 
-if not set -q argv[1]
+function show_help
   set SCRIPT_NAME (basename (status -f))
   echo "Usage: $SCRIPT_NAME <path>"
   exit 1
 end
 
-argparse --name=(basename (status -f)) "a/all" "x/extract" -- $argv
+argparse --name=(basename (status -f)) "d/dry-run" "y/yes" "x/extract" -- $argv; or show_help
 
+if not set -q argv[1]
+  show_help
+end
 cd $argv[1]
 
 # Workaround 🤷‍♀️
+if set -q _flag_yes
+  set YES_FLAG $_flag_yes
+end
 if set -q _flag_extract
   set EXTRACT $_flag_extract
+end
+if set -q _flag_dry_run
+  set DRY_RUN $_flag_dry_run
 end
 
 set CONVERTED ""
@@ -30,17 +39,19 @@ function inner_loop
   echo "----------------"
   echo (pwd)/
 
-  if set -q _flag_all
-    echo "Converting!"
-    do_zip
-  else
-    read -l -P "Convert node_modules? [y/N]" CONFIRMATION
-    switch $CONFIRMATION
-      case Y y
-        echo "Converting!"
-        do_zip
-      case "" N n
-        echo "Skipping"
+  if not set -q DRY_RUN
+    if set -q YES_FLAG
+      echo "Converting!"
+      do_zip
+    else
+      read -l -P "Convert node_modules? [y/N]" CONFIRMATION
+      switch $CONFIRMATION
+        case Y y
+          echo "Converting!"
+          do_zip
+        case "" N n
+          echo "Skipping"
+      end
     end
   end
 end
@@ -61,6 +72,7 @@ for packageJSON in (find . -type d -name node_modules -prune -o -name "package.j
   cd -
 end
 
+echo "----------------"
 echo "Converted repos were:"
 for dir in $CONVERTED
   echo $dir
