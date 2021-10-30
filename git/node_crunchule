@@ -57,7 +57,8 @@ function inner_loop
 end
 
 # find . -name package.json -prune -o "package.json"
-for packageJSON in (find . -type d -name node_modules -prune -o -name "package.json" -print)
+# for packageJSON in (find . -type d -name node_modules -prune -o -name "package.json" -print)
+for packageJSON in (mdfind -name package.json)
   set REPO_DIR (dirname $packageJSON)
   cd $REPO_DIR
   if set -q EXTRACT
