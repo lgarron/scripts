@@ -44,7 +44,7 @@ function inner_loop
       echo "Converting!"
       do_zip
     else
-      read -l -P "Convert node_modules? [y/N]" CONFIRMATION
+      read -l -P "Convert node_modules? [y/N] " CONFIRMATION
       switch $CONFIRMATION
         case Y y
           echo "Converting!"
