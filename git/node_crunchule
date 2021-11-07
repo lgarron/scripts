@@ -77,8 +77,12 @@ for packageJSON in (mdfind -onlyin . -name package.json)
   end
 end
 
-echo "----------------"
-echo "Converted repos were:"
-for dir in $CONVERTED
-  echo $dir
+if set -q CONVERTED[2]
+  echo "----------------"
+  echo "Converted repos were:"
+  for dir in $CONVERTED
+    echo $dir
+  end
+else
+  echo "No repos converted."
 end
