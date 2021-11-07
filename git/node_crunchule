@@ -58,18 +58,20 @@ end
 
 # for packageJSON in (find . -type d -name node_modules -prune -o -name "package.json" -print)
 for packageJSON in (mdfind -onlyin . -name package.json)
-  set REPO_DIR (dirname $packageJSON)
-  cd $REPO_DIR
-  if set -q EXTRACT
-    if test -f node_modules.7z
-      inner_loop
+  if not string match -q "*/node_modules/*" $packageJSON
+    set REPO_DIR (dirname $packageJSON)
+    cd $REPO_DIR
+    if set -q EXTRACT
+      if test -f node_modules.7z
+        inner_loop
+      end
+    else
+      if test -d node_modules
+        inner_loop
+      end
     end
-  else
-    if test -d node_modules
-      inner_loop
-    end
+    cd -
   end
-  cd -
 end
 
 echo "----------------"
