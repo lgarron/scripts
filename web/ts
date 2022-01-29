@@ -17,11 +17,13 @@ set TEMP_FOLDER (mktemp -d)
 # cd so that `esbuild` uses relative paths for source maps that `node` maps properly.
 cd $TEMP_FOLDER
 
+echo "{\"type\": \"module\"}" > package.json
+
 echo "import \"$SRC_ENTRY_REALPATH\";" > main.ts
 echo ""
 echo "------- [ts] Compiling with `esbuild` ---------"
 echo ""
-npx esbuild --bundle main.ts --sourcemap --platform=node --outfile=main.js
+npx esbuild --bundle --splitting --format=esm main.ts --sourcemap --platform=node --outdir=.
 
 echo ""
 echo "------- [ts] Running in `node` ---------"
