@@ -23,7 +23,7 @@ echo "import \"$SRC_ENTRY_REALPATH\";" > main.ts
 echo ""
 echo "------- [ts] Compiling with `esbuild` ---------"
 echo ""
-npx esbuild --bundle --splitting --format=esm main.ts --sourcemap --platform=node --outdir=.
+npx esbuild --bundle --splitting --format=esm --target=esnext main.ts --sourcemap --platform=node --outdir=.
 
 echo ""
 echo "------- [ts] Running in `node` ---------"
