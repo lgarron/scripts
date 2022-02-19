@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+cd (mktemp -d)
+echo "{}" > package.json
+npm install -- $argv
+find node_modules -type f | wc -l
+du -sh node_modules
