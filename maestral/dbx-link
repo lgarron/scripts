@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+
+set REALPATH (realpath $argv[1])
+if string match "$HOME/Dropbox (Maestral)/*" $REALPATH
+    set DROPBOX_PATH (string replace "$HOME/Dropbox (Maestral)/" "" $REALPATH)
+    maestral sharelink create $DROPBOX_PATH ; or maestral sharelink list $DROPBOX_PATH
+else
+    echo "Not in the Maestral Dropbox folder: $REALPATH"
+end
