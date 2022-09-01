@@ -11,29 +11,35 @@ function show_help
   exit
 end
 
-function show_current
-  echo "[$PAM_SUDO_FILE] Lines currently containing `pam_tid.so`:"
-  cat $PAM_SUDO_FILE | grep "pam_tid\.so" ; or echo "(none)"
-  echo "----------------"
+function show_matches
+  set ADVERB $argv[1]
+  echo "[$PAM_SUDO_FILE] Lines $ADVERB containing `pam_tid.so`:"
+  cat $PAM_SUDO_FILE | grep "pam_tid\.so" ; or echo "(no lines)"
 end
 
 if [ "$COMMAND" = "status" ]
-  show_original
+  show_matches "currently"
 else if [ "$COMMAND" = "enable" ]
-  show_original
+  show_matches "originally"
+  echo "----------------"
   echo "Ensuring `auth sufficient pam_tid.so` entry."
   echo "May require `sudo` auth itself."
+
   cat $PAM_SUDO_FILE | grep pam_tid.so > /dev/null ; or \
     sudo sed -i "" "1,/.so/s/^auth/auth       sufficient     pam_tid.so\nauth/" $PAM_SUDO_FILE # Touch ID sudo
+    
+  echo "----------------"
+  show_matches "now"
 else if [ "$COMMAND" = "disable" ]
-  show_original
+  show_matches "originally"
+  echo "----------------"
   echo "Deleting any `auth sufficient pam_tid.so` entry."
   echo "May require `sudo` auth itself."
+
   sudo sed -i "" "/^auth  *sufficient  *pam_tid\.so\$/d" $PAM_SUDO_FILE
+
+  echo "----------------"
+  show_matches "now"
 else
   show_help
 end
-
-echo "----------------"
-echo "[$PAM_SUDO_FILE] Lines now containing `pam_tid.so`:"
-cat $PAM_SUDO_FILE | grep "pam_tid\.so" ; or echo "(none)"
