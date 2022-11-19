@@ -1,0 +1,41 @@
+#!/usr/bin/env fish
+
+set ROME_JSON "./rome.json"
+set PACKAGE_JSON "./package.json"
+
+if test -f $ROME_JSON
+  echo "[add-rome] Error: `$ROME_JSON` already exists!"
+  exit 1
+end
+
+if ! test -f $PACKAGE_JSON
+  echo "[add-rome] Warning: no `$PACKAGE_JSON` observed in the current folder. Check if you're in the intended folder."
+end
+echo "[add-rome] Writing: $ROME_JSON"
+echo '{
+  "formatter": {
+    "indentStyle": "space",
+    "indentSize": 2
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  }
+}
+' > $ROME_JSON
+
+echo "[add-rome] Installing `rome`."
+npm install --save-dev rome@latest
+
+echo "[add-rome] Enter source code directories:"
+read --command "./src" --line ROME_SOURCE_DIRS
+set TEMP_PACKAGE_JSON (mktemp)
+echo "[add-rome] Adding `npm` scripts..."
+cat $PACKAGE_JSON > $TEMP_PACKAGE_JSON
+set ADDED_JSON "{lint: \"npx rome check $ROME_SOURCE_DIRS\", format: \"npx rome format $ROME_SOURCE_DIRS\"}"
+echo "[add-rome] $ADDED_JSON"
+cat $TEMP_PACKAGE_JSON | jq -r ".scripts += $ADDED_JSON" > $PACKAGE_JSON
+
+echo "[add-rome] Done!"
