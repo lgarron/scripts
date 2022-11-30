@@ -8,6 +8,15 @@ if test -f $ROME_JSON
   exit 1
 end
 
+function cancel
+  echo "Cancelling..."
+  exit
+end
+
+# Prompt first, so that ^C prevents any files from being written.
+echo "[add-rome] Enter source code directories (Ctrl-C to cancel):"
+read --command "./src" --line ROME_SOURCE_DIRS ; or cancel
+
 if ! test -f $PACKAGE_JSON
   echo "[add-rome] Warning: no `$PACKAGE_JSON` observed in the current folder. Check if you're in the intended folder."
 end
@@ -29,8 +38,6 @@ echo '{
 echo "[add-rome] Installing `rome`."
 npm install --save-dev rome@latest
 
-echo "[add-rome] Enter source code directories:"
-read --command "./src" --line ROME_SOURCE_DIRS
 set TEMP_PACKAGE_JSON (mktemp)
 echo "[add-rome] Adding `npm` scripts..."
 cat $PACKAGE_JSON > $TEMP_PACKAGE_JSON
