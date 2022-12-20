@@ -20,8 +20,10 @@ end
 if set -q _flag_yes
   set YES_FLAG $_flag_yes
 end
+set CRUNCH_WORD_CAPITALIZED "Crunch"
 if set -q _flag_extract
   set EXTRACT $_flag_extract
+  set CRUNCH_WORD_CAPITALIZED "Uncrunch"
 end
 if set -q _flag_dry_run
   set DRY_RUN $_flag_dry_run
@@ -44,13 +46,13 @@ function inner_loop
 
   if not set -q DRY_RUN
     if set -q YES_FLAG
-      echo "Converting!"
+      echo $CRUNCH_WORD_CAPITALIZED"ing!"
       do_zip
     else
-      read -l -P "Convert node_modules? [y/N] " CONFIRMATION
+      read -l -P $CRUNCH_WORD_CAPITALIZED" node_modules? [y/N] " CONFIRMATION
       switch $CONFIRMATION
         case Y y
-          echo "Converting!"
+          echo $CRUNCH_WORD_CAPITALIZED"ing!"
           do_zip
         case "" N n
           echo "Skipping"
@@ -79,10 +81,10 @@ end
 
 if set -q CONVERTED[2]
   echo "----------------"
-  echo "Converted repos were:"
+  echo $CRUNCH_WORD_CAPITALIZED"ed repos were:"
   for dir in $CONVERTED
     echo $dir
   end
 else
-  echo "No repos converted."
+  echo "No repos "(string lower $CRUNCH_WORD_CAPITALIZED)"ed."
 end
