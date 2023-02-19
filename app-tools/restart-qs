@@ -1,3 +1,4 @@
 #!/bin/bash
-killall Quicksilver &
+killall Quicksilver
+sleep 1
 open /Applications/Quicksilver.app
