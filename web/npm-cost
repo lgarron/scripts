@@ -1,7 +1,18 @@
 #!/usr/bin/env fish
 
-cd (mktemp -d)
+set TEMP_DIR (mktemp -d)
+cd $TEMP_DIR
 echo "{}" > package.json
 npm install -- $argv
-find node_modules -type f | wc -l
+
+echo "--------"
+echo -n "Number of files: "
+set_color --bold
+find node_modules -type f | ls | wc -l | tr -d " "
+set_color normal
+
+echo "--------"
+echo "Number of bytes: "
 du -sh node_modules
+
+rm -rf $TEMP_DIR
