@@ -6,7 +6,7 @@ hostname
 set_color normal
 
 echo -n "Screen locked: "
-if /usr/libexec/PlistBuddy -c "print :IOConsoleUsers:0:CGSSessionScreenIsLocked" (ioreg -n Root -d1 -a | psub) 2>&1 | grep "^true\$"
+if /usr/libexec/PlistBuddy -c "print :IOConsoleUsers:0:CGSSessionScreenIsLocked" (ioreg -n Root -d1 -a | psub) 2>&1 | grep "^true\$" > /dev/null
   set_color green
   echo "true"
   set_color normal
