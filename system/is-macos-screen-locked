@@ -1,0 +1,16 @@
+#!/usr/bin/env fish
+
+echo -n "     Hostname: "
+set_color --bold
+hostname
+set_color normal
+
+echo -n "Screen locked: "
+if /usr/libexec/PlistBuddy -c "print :IOConsoleUsers:0:CGSSessionScreenIsLocked" (ioreg -n Root -d1 -a | psub) 2>&1 | grep "^true\$"
+  set_color green
+  echo "true"
+else
+  set_color red
+  echo "false"
+end
+set_color normal
