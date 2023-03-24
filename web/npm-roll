@@ -38,6 +38,6 @@ echo -n -- "$NPM_PACKAGE"
 set_color normal
 echo -- " to version: v$VERSION"
 
-npm install "cubing@v$VERSION"
+npm install "$NPM_PACKAGE@v$VERSION"
 git stage package.json package-lock.json
-git commit -m "`npm install cubing@v$VERSION`"
+git commit -m "`npm install $NPM_PACKAGE@v$VERSION`"
