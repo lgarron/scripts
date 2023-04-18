@@ -30,7 +30,7 @@ if string match "$HOME/Dropbox (Maestral)/*" $REALPATH > /dev/null
     end
 
     function list_copy
-        set COPY_PATH (maestral sharelink list $DROPBOX_PATH | tail -n1)
+        set COPY_PATH (maestral sharelink list $DROPBOX_PATH | head -n1)
         echo "♻️ Used existing URL"
         print_copy_path "$COPY_PATH"
     end
