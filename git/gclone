@@ -9,11 +9,18 @@ then
   exit 1
 fi
 
-GITHUB_PATH="${HOME}/Code/git/github.com"
+GITHUB_PATH="${HOME}/Code/git/"
 REPO_URL="${1}"
 
-if [[ "${REPO_URL}" =~ ^https://github.com/ ]]; then
-  URL_PATH=${REPO_URL#"https://github.com/"}
+
+if [[ "${REPO_URL}" =~ ".." ]]; then
+  # Poor man's path traversal mitigation.
+  echo -- "Invalid URL: ${REPO_URL}"
+  exit 1
+fi
+
+if [[ "${REPO_URL}" =~ ^https:// ]]; then
+  URL_PATH=${REPO_URL#"https://"}
   REPO=${URL_PATH%".git"}
   IFS="/"
   read -a PARTS <<< "${REPO}"
@@ -26,10 +33,10 @@ if [[ "${REPO_URL}" =~ ^https://github.com/ ]]; then
   code "${FOLDER}"
   if [ -f ".git" ] || [ -d ".git" ]
   then
-    echo "Already checked out."
+    echo -- "Already checked out."
   else 
-     git clone "https://github.com/${REPO_PATH}" .
+     git clone "https://${REPO_PATH}" .
   fi
 else
-  echo "Invalid URL: ${REPO_URL}"
+  echo -- "Invalid URL: ${REPO_URL}"
 fi
