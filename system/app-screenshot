@@ -1,0 +1,36 @@
+#!/opt/homebrew/bin/fish
+# Full `fish` path is hardcoded so it works outside the shell (e.g. using Karabiner).
+
+set PARENT_FOLDER "$HOME/Dropbox (Maestral)/Screenshots/Germain Screenshots/Germain App Screenshots/"
+set APP_NAME (path change-extension '' (basename (lsappinfo info -only bundlepath (lsappinfo front))))
+set APP_FOLDER "$PARENT_FOLDER/$APP_NAME"
+
+mkdir -p $APP_FOLDER
+
+set DATE_STRING (date "+%Y-%m-%d — %H-%M-%S")
+
+set FILE_NAME_UNSUFFIXED "$APP_FOLDER/$DATE_STRING — $APP_NAME"
+
+if [ "$argv[1]" = "--front-window-shadowed-png" ]
+  set WINDOW_ID (osascript -e 'tell application (path to frontmost application as text) to id of window 1')
+  set FILE_NAME $FILE_NAME_UNSUFFIXED.png
+  screencapture -l$WINDOW_ID -t png $FILE_NAME
+else if [ "$argv[1]" = "--front-window-shadowless-jpg" ]
+  set WINDOW_ID (osascript -e 'tell application (path to frontmost application as text) to id of window 1')
+  set FILE_NAME $FILE_NAME_UNSUFFIXED.jpg
+  screencapture -l$WINDOW_ID -o -x -t jpg $FILE_NAME
+else
+  set FILE_NAME $FILE_NAME_UNSUFFIXED.jpg
+  screencapture -t jpg $FILE_NAME
+end
+
+# TODO: better arg handling
+if [ "$argv[1]" = "--reveal" ]
+  open -R $FILE_NAME
+end
+if [ "$argv[2]" = "--reveal" ]
+  open -R $FILE_NAME
+end
+/Applications/ImageOptim.app/Contents/MacOS/ImageOptim $FILE_NAME &
+
+# Permission needed for: /Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_console_user_server
