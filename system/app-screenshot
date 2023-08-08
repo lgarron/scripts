@@ -18,7 +18,7 @@ if [ "$argv[1]" = "--front-window-shadowed-png" ]
 else if [ "$argv[1]" = "--front-window-shadowless-jpg" ]
   set WINDOW_ID (osascript -e 'tell application (path to frontmost application as text) to id of window 1')
   set FILE_NAME $FILE_NAME_UNSUFFIXED.jpg
-  screencapture -l$WINDOW_ID -o -x -t jpg $FILE_NAME
+  screencapture -l$WINDOW_ID -o -t jpg $FILE_NAME
 else
   set FILE_NAME $FILE_NAME_UNSUFFIXED.jpg
   screencapture -t jpg $FILE_NAME
