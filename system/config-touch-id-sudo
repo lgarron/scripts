@@ -9,9 +9,9 @@ function show_matches
   cat $PAM_SUDO_FILE | grep "pam_tid\.so" ; or echo "(no lines)"
 end
 
+set SCRIPT_NAME (basename (status -f))
 function show_help
-  set SCRIPT_NAME (basename (status -f))
-  echo "Usage: $SCRIPT_NAME [enable/disable/status]"
+  echo "Usage: $SCRIPT_NAME [enable/disable/status/help]"
   echo ""
   echo "Enable Touch ID for sudo commands in shells by adding `pam_tid.so` to `$PAM_SUDO_FILE`."
   echo ""
@@ -19,9 +19,7 @@ function show_help
   exit
 end
 
-if [ "$COMMAND" = "status" ]
-  show_matches "currently"
-else if [ "$COMMAND" = "enable" ]
+function enable
   show_matches "originally"
   echo "----------------"
   echo "Ensuring `auth sufficient pam_tid.so` entry."
@@ -32,11 +30,26 @@ else if [ "$COMMAND" = "enable" ]
     
   echo "----------------"
   show_matches "now"
+end
+
+if [ "$COMMAND" = "status" ]
+  show_matches "currently"
+else if [ "$COMMAND" = "help" ]
+  show_help  
+else if [ "$COMMAND" = "enable" ]
+  echo "Enabling Touch ID sudo…"
+  echo "----------------"
+  enable
+else if [ "$COMMAND" = "" ]
+  echo "Enabling Touch ID sudo…"
+  echo "(To view options, run: $SCRIPT_NAME help)"
+  echo "----------------"
+  enable
 else if [ "$COMMAND" = "disable" ]
   show_matches "originally"
   echo "----------------"
   echo "Deleting any `auth sufficient pam_tid.so` entry."
-  echo "May require `sudo` auth itself."
+  echo "You will likely be prompted for `sudo` auth using a password in order to enable Touch ID."
 
   sudo sed -i "" "/^auth  *sufficient  *pam_tid\.so\$/d" $PAM_SUDO_FILE
 
