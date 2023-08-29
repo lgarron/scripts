@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+
+set INPUT_PATH $argv[1]
+
+if not test -d $INPUT_PATH
+  set INPUT_PATH (dirname $INPUT_PATH)
+end
+
+echo $INPUT_PATH
