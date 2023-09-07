@@ -52,8 +52,8 @@ Create a `.dmg` out of a folder. Can be as useful as a `.zip` file, but allows m
 Take a macOS screenshot and save it with with a folder and file name based on the current foreground app. (Currently hardcoded to my own Dropbox path.)
 ### `assign-icon`
 Assign an icon file to a file/folder.
-### `config-touch-id-sudo`
-Enable Touch ID for sudo commands in shells by adding `pam_tid.so` to `/private/etc/pam.d/sudo`. Useful after every macOS update. Example: `config-touch-id-sudo enable`
+### `touch-id-sudo-config`
+Enable Touch ID for sudo commands in shells by adding `pam_tid.so` to `/private/etc/pam.d/sudo`. Useful after every macOS update. Example: `touch-id-sudo-config enable`
 ### `map`
 Super simple parallization scripts. Example: `map process file1.txt file2.txt`
 ### `portkill`
