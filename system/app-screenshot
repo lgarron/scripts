@@ -1,6 +1,6 @@
 #!/opt/homebrew/bin/fish
-# Full `fish` path is hardcoded so it works outside the shell (e.g. using Karabiner).
 
+# Full `fish` path is hardcoded so it works outside the shell (e.g. using Karabiner). Note that a symlink at `$HOME/Dropbox` doesn't seem to work for this.
 set PARENT_FOLDER "$HOME/Dropbox (Maestral)/Screenshots/Germain Screenshots/Germain App Screenshots/"
 set APP_NAME (path change-extension '' (basename (lsappinfo info -only bundlepath (lsappinfo front))))
 set APP_FOLDER "$PARENT_FOLDER/$APP_NAME"

@@ -19,7 +19,7 @@ Convert to `.wav`
 ## git
 ### `gclone`
 Clone the given URL to `~/Code/git/github.com/[user]/[repo]/`. Useful to combine with `chrometab`, or [using QS](https://github.com/lgarron/dotfiles/blob/f5b435e3701988b070920ef1f31ef6afb2384ca8/Quicksilver%20Triggers/Google/Clone%20GitHub%20Repo%20from%20Chrome.applescript).
-### `git-distance`[^2]
+### `git-distance`
 Calculate the distance from the current branch (or any branch) to another branch, in terms of # of unique commits on each since the last common ancestor.
 ### `node_crunchule`
 Compress any `node_modules` in the current or ancestor folders (useful to reduce the number of files on disk for a dormant repo, which can make system backups faster to diff).
@@ -48,6 +48,8 @@ Pack `.bmp` or `.png` files in a folder. Example: `pack-pov cube?????.png`
 ### `dmgify`
 Create a `.dmg` out of a folder. Can be as useful as a `.zip` file, but allows mounting and editing in macOS without any special tools. Example: `dmgify ./path/to/folder`
 ## system
+### `app-screenshot`
+Take a macOS screenshot and save it with with a folder and file name based on the current foreground app. (Currently hardcoded to my own Dropbox path.)
 ### `assign-icon`
 Assign an icon file to a file/folder.
 ### `config-touch-id-sudo`
@@ -62,6 +64,8 @@ Replace a symlink with its target.
 Toggle Retina display scaling. Requires [RDM](https://github.com/avibrazil/RDM) to be installed.
 ### `unixtime`
 Print the current unix time in seconds. Equivalent to `date +%s` but easier to remember.
+### `xdig`
+A wrapper for `dig` that allows using `~/.config/dig/digrc` (XDG dir convention compatible) instead of `.digrc`, with reasonable fidelity.
 ## video
 ### `archive-h265-crf18`
 Archive a video using H.265 at CRF 18 (moderately high quality setting).
@@ -70,8 +74,8 @@ Archive a video using MP4 at CRF 18 (moderately high quality setting).
 ### `mts2mov`
 Wraps RX100 AVCHD files into `.mov` so that macOS will read natively, without transcoding the video stream.
 ## web
-### `add-rome`
-Install and configure [`rome`](https://rome.tools/) for a JS repo with my legacy defaults.
+### `add-biome`
+Install and configure [`biome`](https://biomejs.dev/) for a JS repo with my legacy defaults.
 ### `chrometab`
 Get the current open Chrome tab.
 ### `npm-cost`
