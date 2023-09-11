@@ -2,7 +2,15 @@
 
 # Full `fish` path is hardcoded so it works outside the shell (e.g. using Karabiner). Note that a symlink at `$HOME/Dropbox` doesn't seem to work for this.
 set PARENT_FOLDER "$HOME/Dropbox (Maestral)/Screenshots/Germain Screenshots/Germain App Screenshots/"
-set APP_NAME (path change-extension '' (basename (lsappinfo info -only bundlepath (lsappinfo front))))
+set LSAPPINFO (lsappinfo info -only bundlepath (lsappinfo front))
+if echo $LSAPPINFO | grep ".*LSBundlePath.*minecraft.*"
+  # For Minecraft, `lsappinfo` returns `"LSBundlePath"="/path/…/to/…/java"`
+  # I can't figure out how to get a plain string or the arguments, so we just hardcoded this case.
+  set APP_NAME "Minecraft"
+else
+  set APP_NAME (path change-extension '' (basename (echo $LSAPPINFO)))
+end
+echo $APP_NA`ME
 set APP_FOLDER "$PARENT_FOLDER/$APP_NAME"
 
 mkdir -p $APP_FOLDER
@@ -31,6 +39,6 @@ end
 if [ "$argv[2]" = "--reveal" ]
   open -R $FILE_NAME
 end
-/Applications/ImageOptim.app/Contents/MacOS/ImageOptim $FILE_NAME &
+# /Applications/ImageOptim.app/Contents/MacOS/ImageOptim $FILE_NAME &
 
 # Permission needed for: /Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_console_user_server
