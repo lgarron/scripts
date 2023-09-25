@@ -27,15 +27,15 @@ if [[ "${REPO_URL}" =~ ^https:// ]]; then
   REPO_PATH="${PARTS[0]}/${PARTS[1]}"
 
   FOLDER="${GITHUB_PATH}/${REPO_PATH}"
+  echo "Checking out repo at: ${FOLDER}"
   mkdir -p "${FOLDER}"
-  cd "${FOLDER}"
   open "${FOLDER}"
   code "${FOLDER}"
   if [ -f ".git" ] || [ -d ".git" ]
   then
     echo -- "Already checked out."
   else 
-     git clone "https://${REPO_PATH}" .
+     git clone "https://${REPO_PATH}" "${FOLDER}"
   fi
 else
   echo -- "Invalid URL: ${REPO_URL}"
