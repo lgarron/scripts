@@ -14,7 +14,7 @@ function cancel
 end
 
 # Prompt first, so that ^C prevents any files from being written.
-echo "[add-biome] Enter source code directories (Ctrl-C to cancel):"
+echo "[add-biome] Enter a source code directory, or multiple separated by spaces (Ctrl-C to cancel):"
 read --command "./src" --line BIOME_SOURCE_DIRS ; or cancel
 
 if ! test -f $PACKAGE_JSON
