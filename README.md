@@ -62,6 +62,8 @@ Run `kill -9` for any processes using a given port. Example: `portkill 8000`
 Replace a symlink with its target.
 ### `toggle-retina`
 Toggle Retina display scaling. Requires [RDM](https://github.com/avibrazil/RDM) to be installed.
+### `toggle-screen-sharing-resolution`
+Toggle resolution for screen sharing. Requires [RDM](https://github.com/avibrazil/RDM) to be installed.
 ### `unixtime`
 Print the current unix time in seconds. Equivalent to `date +%s` but easier to remember.
 ### `xdig`
