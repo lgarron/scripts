@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+if /Applications/RDM.app/Contents/MacOS/SetResX -ld | grep 2560 > /dev/null
+  /Applications/RDM.app/Contents/MacOS/SetResX -w 1728 -h 1117 -s 2
+else
+  /Applications/RDM.app/Contents/MacOS/SetResX -w 2560 -h 1440 -s 2
+end
