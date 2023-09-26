@@ -48,5 +48,7 @@ if (existsSync(join(repo_path, ".git"))) {
   Bun.spawn(["git", "clone", repo_clone_source, repo_path]);
 }
 
-await Bun.spawn(["open", repo_path]);
-await Bun.spawn(["code", repo_path]);
+await Promise.all([
+  Bun.spawn(["open", repo_path]).exited,
+  Bun.spawn(["code", repo_path]).exited,
+]);
