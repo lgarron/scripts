@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 function show_help
   set SCRIPT_NAME (basename (status -f))

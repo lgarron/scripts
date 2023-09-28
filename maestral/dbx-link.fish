@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 set REALPATH (realpath $argv[1])
 if string match "$HOME/Dropbox (Maestral)/*" $REALPATH > /dev/null

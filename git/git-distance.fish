@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 if [ (count $argv) -eq 0 ]
 set BASE_NAME status --current-filename

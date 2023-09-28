@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 set TEMP_DIR (mktemp -d)
 cd $TEMP_DIR

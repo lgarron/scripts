@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 set BIOME "./biome.json"
 set PACKAGE_JSON "./package.json"

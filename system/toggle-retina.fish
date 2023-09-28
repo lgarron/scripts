@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 # Uses https://github.com/avibrazil/RDM
 # Thanks to https://apple.stackexchange.com/a/368166

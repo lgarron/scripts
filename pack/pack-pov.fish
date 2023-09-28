@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 set target_folder (echo $argv[1] |
   sed -E "s/[0-9]((\.bmp)?\.png)/_\1/g" |

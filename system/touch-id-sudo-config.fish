@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 set COMMAND $argv[1]
 set PAM_SUDO_FILE "/private/etc/pam.d/sudo"

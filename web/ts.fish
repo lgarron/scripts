@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 if not set -q argv[1]
   echo "Usage: ts <path/to/file.ts>"

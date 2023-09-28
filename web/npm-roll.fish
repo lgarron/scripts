@@ -1,4 +1,4 @@
-#!/usr/bin/env fish
+#!/usr/bin/env -S fish --no-config
 
 if test (count $argv) = 0
   echo "Usage: npm-roll [npm package name]"
