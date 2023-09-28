@@ -2,17 +2,34 @@
 
 # Full `fish` path is hardcoded so it works outside the shell (e.g. using Karabiner). Note that a symlink at `$HOME/Dropbox` doesn't seem to work for this.
 set PARENT_FOLDER "$HOME/Dropbox (Maestral)/Screenshots/Germain Screenshots/Germain App Screenshots/"
-set LSAPPINFO (lsappinfo info -only bundlepath (lsappinfo front))
-if echo $LSAPPINFO | grep ".*LSBundlePath.*minecraft.*"
-  # For Minecraft, `lsappinfo` returns `"LSBundlePath"="/path/…/to/…/java"`
-  # I can't figure out how to get a plain string or the arguments, so we just hardcoded this case.
+# Some examples of `application process` properties:
+#
+# - VS Code
+#   - `short name`: "Code"
+#   - `name`: "Electron"
+#   - `bundle identifier` "com.microsoft.VSCode"
+# - No Man's Sky
+#   - `short name`: "No Man's Sky"
+#   - `name`: "No Man's Sky"
+#   - `bundle identifier`: "uk.co.hellogames.nms"
+# - Minecraft
+#   - `short name`: missing value
+#   - `name`: "java"
+#   - `bundle identifier`: vissing value
+#
+# So we use `short name` if available, else `name`.
+set APP_NAME (osascript -e 'tell application "System Events"
+	set appName to short name of first application process whose frontmost is true
+	if appName is missing value then
+		set appName to name of first application process whose frontmost is true
+	end if
+	appName
+end tell')
+if string match -e $APP_NAME java
   set APP_NAME "Minecraft"
-else
-  set APP_NAME (path change-extension '' (basename (echo $LSAPPINFO)))
 end
-echo $APP_NA`ME
+echo $APP_NAME
 set APP_FOLDER "$PARENT_FOLDER/$APP_NAME"
-
 mkdir -p $APP_FOLDER
 
 set DATE_STRING (date "+%Y-%m-%d — %H-%M-%S")
