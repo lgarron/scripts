@@ -32,6 +32,12 @@ Optimise all `.jpg` files in the current folder using `jpeg-recompress`.
 A script to optimize JPEGs, by Loren Merritt
 ### `jpgcrush`
 A script to optimize JPEGs, by Loren Merritt.
+### `resize`
+Resize an image (padding with transparency if needed).
+### `square`
+Resize an image into a square (padding with transparency if needed).
+### `web-app-images`
+Automatically create resized versions of an icon for web app use cases.
 ### `whiteboard`
 Convert an image into an optimized black-and-white file using [this gist by Leland Batey](https://gist.github.com/lelandbatey/8677901).
 ## maestral
