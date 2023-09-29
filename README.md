@@ -52,6 +52,12 @@ Create a `.dmg` out of a folder. Can be as useful as a `.zip` file, but allows m
 Take a macOS screenshot and save it with with a folder and file name based on the current foreground app. (Currently hardcoded to my own Dropbox path.)
 ### `assign-icon`
 Assign an icon file to a file/folder.
+### `niceplz`
+Script to set the nicess of processes based on `~/.config/niceplz/niceplz.json`.
+### `pnice`
+Set the nicess of processes by matching (a substring of) process names. Invokes `sudo` if needed.
+### `pnicest`
+Set a process to maximum niceness using `pnice`.
 ### `touch-id-sudo-config`
 Enable Touch ID for sudo commands in shells by adding `pam_tid.so` to `/private/etc/pam.d/sudo`. Useful after every macOS update. Example: `touch-id-sudo-config enable`
 ### `map`
