@@ -1,7 +1,28 @@
-#!/opt/homebrew/bin/fish
+#!/usr/bin/env -S fish --no-config
 
 # Full `fish` path is hardcoded so it works outside the shell (e.g. using Karabiner). Note that a symlink at `$HOME/Dropbox` doesn't seem to work for this.
 set PARENT_FOLDER "$HOME/Dropbox (Maestral)/Screenshots/Germain Screenshots/Germain App Screenshots/"
+
+set DATE_STRING (date "+%Y-%m-%d — %H-%M-%S")
+
+set WINDOW_ID_ARG ""
+if [ "$argv[1]" = "--front-window-shadowed-png" ]
+  set WINDOW_ID (osascript -e 'tell application (path to frontmost application as text) to id of window 1')
+  set EXTENSION "png"
+  set WINDOW_ID_ARG -l$WINDOW_ID
+else if [ "$argv[1]" = "--front-window-shadowless-jpg" ]
+  set WINDOW_ID (osascript -e 'tell application (path to frontmost application as text) to id of window 1')
+  set EXTENSION "jpg"
+  set WINDOW_ID_ARG -l$WINDOW_ID
+else
+  set EXTENSION "jpg"
+end
+
+set TEMP_FILE $PARENT_FOLDER/$DATE_STRING" — temp "(time random 1 10000000000).$EXTENSION
+echo "taking!"
+screencapture -l$WINDOW_ID -o -t $EXTENSION $TEMP_FILE
+echo "taken!"
+
 # Some examples of `application process` properties:
 #
 # - VS Code
@@ -32,22 +53,8 @@ echo $APP_NAME
 set APP_FOLDER "$PARENT_FOLDER/$APP_NAME"
 mkdir -p $APP_FOLDER
 
-set DATE_STRING (date "+%Y-%m-%d — %H-%M-%S")
-
-set FILE_NAME_UNSUFFIXED "$APP_FOLDER/$DATE_STRING — $APP_NAME"
-
-if [ "$argv[1]" = "--front-window-shadowed-png" ]
-  set WINDOW_ID (osascript -e 'tell application (path to frontmost application as text) to id of window 1')
-  set FILE_NAME $FILE_NAME_UNSUFFIXED.png
-  screencapture -l$WINDOW_ID -t png $FILE_NAME
-else if [ "$argv[1]" = "--front-window-shadowless-jpg" ]
-  set WINDOW_ID (osascript -e 'tell application (path to frontmost application as text) to id of window 1')
-  set FILE_NAME $FILE_NAME_UNSUFFIXED.jpg
-  screencapture -l$WINDOW_ID -o -t jpg $FILE_NAME
-else
-  set FILE_NAME $FILE_NAME_UNSUFFIXED.jpg
-  screencapture -t jpg $FILE_NAME
-end
+set FILE_NAME "$APP_FOLDER/$DATE_STRING — $APP_NAME.$EXTENSION"
+mv $TEMP_FILE $FILE_NAME
 
 # TODO: better arg handling
 if [ "$argv[1]" = "--reveal" ]
