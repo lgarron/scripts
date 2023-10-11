@@ -23,6 +23,14 @@ Clone the given URL to `~/Code/git/github.com/[user]/[repo]/`. Useful to combine
 Calculate the distance from the current branch (or any branch) to another branch, in terms of # of unique commits on each since the last common ancestor.
 ### `node_crunchule`
 Compress any `node_modules` in the current or ancestor folders (useful to reduce the number of files on disk for a dormant repo, which can make system backups faster to diff).
+### `rmbranch`
+Remove `git` branches locally and remotely.
+### `rmtag`
+Remove `git` tags locally and remotely.
+### `tagpush`
+Push and update `git` tags automatically.
+### `version`
+Get the current or previous project version.
 ## graphics
 ### `jpeg-optimize`
 Optimise a single file using `jpeg-recompress`.
