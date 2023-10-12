@@ -1,5 +1,14 @@
 #!/usr/bin/env -S fish --no-config
 
+if contains -- "--completions" $argv
+  # This does *not* check the argument order, but that's good enough to avoid Homebrew install failures.
+  if contains -- "fish" $argv
+    # From https://codybonney.com/getting-a-list-of-local-git-branches-without-using-git-branch/
+    echo "complete -c rmtag -a \"(git tag --list)\""
+  end
+  exit 0
+end
+
 if [ (count $argv) -eq 0 ]
   echo "Usage: rmtag <tag-name> [more branch names]"
   echo ""
