@@ -24,7 +24,7 @@ echo "[add-biome] Writing: $BIOME"
 echo '{
   "formatter": {
     "indentStyle": "space",
-    "indentSize": 2
+    "indentWidth": 2
   },
   "linter": {
     "enabled": true,
