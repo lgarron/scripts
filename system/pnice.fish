@@ -7,7 +7,7 @@ if test (count $argv) -lt 2
   echo "Set the nicess of processes by matching (a substring of) process names."
 else
   echo "📶 Setting niceness $NICENESS for process names containing: $argv[1]";
-  for pid in (pgrep $argv[1])
+  for pid in (pgrep -i $argv[1])
     echo -n "🖥  renice $NICENESS $pid"
     renice $NICENESS $pid 2> /dev/null
     if test $status -ne 0
