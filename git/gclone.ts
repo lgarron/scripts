@@ -5,6 +5,7 @@ import { mkdir } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { argv, exit } from "node:process";
+import { $ } from "bun";
 
 const git_repos_root = join(homedir(), "Code/git");
 const repo_url_string: string | undefined = argv[2];
@@ -45,10 +46,7 @@ if (existsSync(join(repo_path, ".git"))) {
   console.log("Cloning from:", repo_clone_source);
   console.log("To:", repo_path);
   // Note: we do *not* `await` the result.
-  Bun.spawn(["git", "clone", repo_clone_source, repo_path]);
+  $`git clone ${repo_clone_source} ${repo_path}`;
 }
 
-await Promise.all([
-  Bun.spawn(["open", repo_path]).exited,
-  Bun.spawn(["code", repo_path]).exited,
-]);
+await Promise.all([await $`open ${repo_path}`, await $`code ${repo_path}`]);

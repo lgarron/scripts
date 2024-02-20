@@ -61,6 +61,8 @@ Pack `.bmp` or `.png` files in a folder. Example: `pack-pov cube?????.png`
 ## storage
 ### `dmgify`
 Create a `.dmg` out of a folder. Can be as useful as a `.zip` file, but allows mounting and editing in macOS without any special tools. Example: `dmgify ./path/to/folder`
+### `generate-web-folder-index`
+Create a simple HTML folder index for the given input files.
 ## system
 ### `app-screenshot`
 Take a macOS screenshot and save it with with a folder and file name based on the current foreground app. (Currently hardcoded to my own Dropbox path.)

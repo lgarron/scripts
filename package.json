@@ -1,12 +1,14 @@
 {
-  "dependencies": {
-    "bun-types": "^1.0.24"
-  },
+  "dependencies": { "@types/bun": "^1.0.6", "jsdom": "^24.0.0" },
   "devDependencies": {
-    "@biomejs/biome": "^1.4.1"
+    "@biomejs/biome": "latest",
+    "bun-types": "^1.0.24"
   },
   "scripts": {
     "lint": "npx @biomejs/biome check ./",
     "format": "npx @biomejs/biome format --write ./"
-  }
+  },
+  "name": "scripts",
+  "module": "index.ts",
+  "type": "module"
 }

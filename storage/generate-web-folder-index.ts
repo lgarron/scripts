@@ -51,7 +51,7 @@ for (const fileName of argv.slice(2)) {
   }
   const li = ul.appendChild(document.createElement("li"));
   const a = li.appendChild(document.createElement("a"));
-  a.href = fileName; // TODO: `happy-dom` should be handling this properly. 😣
+  a.href = fileName;
   const code = a.appendChild(document.createElement("code"));
   code.textContent = fileName;
   ul.append("\n");
