@@ -1,0 +1,151 @@
+#!/usr/bin/env bun
+
+// Hardcoded for my own `sd-card-backup` configuration.
+
+import { stat } from "node:fs/promises";
+import { extname } from "node:path";
+import { exit } from "node:process";
+import { $, argv } from "bun";
+
+const filePath = argv[2];
+if (!filePath) {
+  throw new Error("Must supply a path.");
+}
+
+const BACKUP_DRIVE = "Trenzalore";
+
+const parts = filePath.split("/");
+
+// TODO: folder mappings other than DCIM
+
+if (parts[2] === BACKUP_DRIVE) {
+  if (parts.length !== 11) {
+    throw new Error("Invalid path.");
+  }
+  const [
+    root,
+    Volumes,
+    backupDrive,
+    SDCardBackup,
+    _targetClassificationFolder,
+    _year,
+    _date,
+    cardName,
+    DCIM,
+    parentFolderName,
+    fileName,
+  ] = parts;
+  if (
+    root !== "" ||
+    Volumes !== "Volumes" ||
+    backupDrive !== BACKUP_DRIVE ||
+    SDCardBackup !== "SD Card Backup" ||
+    DCIM !== "DCIM"
+  ) {
+    throw new Error("Invalid path!");
+  }
+  const targetParts = [
+    "",
+    "Volumes",
+    cardName,
+    "DCIM",
+    parentFolderName,
+    fileName,
+  ];
+
+  const targetPath = targetParts.join("/");
+  // console.log(targetPath);
+  await $`open -R ${targetPath}`;
+
+  exit(0);
+}
+
+if (parts.length !== 6) {
+  throw new Error("Invalid path.");
+}
+const [root, Volumes, cardName, DCIM, parentFolderName, fileName] = parts;
+
+if (root !== "" || Volumes !== "Volumes" || DCIM !== "DCIM") {
+  throw new Error("Invalid path!");
+}
+
+const statResult = await stat(filePath);
+const yearString = statResult.ctime.getFullYear().toString();
+const monthString = (statResult.ctime.getMonth() + 1)
+  .toString()
+  .padStart(2, "0");
+const dayString = statResult.ctime.getDate().toString().padStart(2, "0");
+const dateString = [yearString, monthString, dayString].join("-");
+
+const imageExtensions = {
+  ".arw": true,
+  ".bmp": true,
+  ".cr2": true,
+  ".cr3": true,
+  ".dng": true,
+  ".gif": true,
+  ".jpeg": true,
+  ".jpg": true,
+  ".nef": true,
+  ".png": true,
+  ".raw": true,
+  ".tif": true,
+  ".webm": true,
+};
+
+// TODO: This is currently conservative. A more robust approach using file(1) or
+// `http.DetectContentType` would be nice, although both are hacky.
+const videoExtensions = {
+  ".avi": true,
+  ".m4v": true,
+  ".mkv": true,
+  ".mov": true,
+  ".mp4": true,
+  ".mpeg:": true,
+  ".mpg:": true,
+  ".mts": true,
+  ".mxf": true,
+  ".crm": true, // Canon raw movie
+};
+
+// TODO: This is currently conservative. A more robust approach using file(1) or
+// `http.DetectContentType` would be nice, although both are hacky.
+const audioExtensions = {
+  ".aac": true,
+  ".aif": true,
+  ".aiff": true,
+  ".flac": true,
+  ".m4a": true,
+  ".mp3": true,
+  ".ogg": true,
+  ".wav": true,
+  ".wma": true,
+};
+
+let targetClassificationFolder = "Unsorted";
+const extension = extname(filePath).toLowerCase();
+if (imageExtensions[extension]) {
+  targetClassificationFolder = "Images";
+} else if (videoExtensions[extension]) {
+  targetClassificationFolder = "Videos";
+} else if (audioExtensions[extension]) {
+  targetClassificationFolder = "Audio";
+}
+
+const targetParts = [
+  "",
+  "Volumes",
+  BACKUP_DRIVE,
+  "SD Card Backup",
+  targetClassificationFolder,
+  yearString,
+  dateString,
+  cardName,
+  "DCIM",
+  parentFolderName,
+  fileName,
+];
+
+const targetPath = targetParts.join("/");
+// console.log(targetPath);
+await $`open -R ${targetPath}`;
