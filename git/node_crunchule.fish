@@ -41,7 +41,6 @@ function do_zip
 end
 
 function inner_loop
-  echo "----------------"
   echo (pwd)/
 
   if not set -q DRY_RUN
@@ -67,11 +66,17 @@ for packageJSON in (mdfind -onlyin . -name package.json)
     set REPO_DIR (dirname $packageJSON)
     cd $REPO_DIR
     if set -q EXTRACT
+      echo "----------------"
       if test -f node_modules.7z
         inner_loop
       end
     else
       if test -d node_modules
+        echo "----------------"
+        echo -n "Number of files: "
+        find node_modules -type f | wc -l | tr -d " "
+        echo -n "Number of bytes: "
+        du -sh node_modules
         inner_loop
       end
     end
