@@ -10,7 +10,7 @@ then
 fi
 
 IN_FILE="${1}"
-OUT_FILE="${2}"
+OUT_FILE="${2:${IN_FILE}.flac}"
 
 if [ -z "${OUT_FILE}" ]
 then
