@@ -196,17 +196,9 @@ A wrapper for `dig` that allows using `~/.config/dig/digrc` (XDG dir convention 
 
 ## `video`
 
-### `archive-h265-crf18`
+### `hevc`
 
-Archive a video using H.265 at CRF 18 (moderately high quality setting).
-
-### `archive-mp4-crf18`
-
-Archive a video using MP4 at CRF 18 (moderately high quality setting).
-
-### `mts2mov`
-
-Wraps RX100 AVCHD files into `.mov` so that macOS will read natively, without transcoding the video stream.
+Encode a video using HEVC for excellent archival quality.
 
 ## `web`
 
