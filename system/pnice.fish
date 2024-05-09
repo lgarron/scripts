@@ -4,7 +4,7 @@ set NICENESS $argv[2]
 if test (count $argv) -lt 2
   echo "Usage: pnice <process substring> <niceness>"
   echo ""
-  echo "Set the nicess of processes by matching (a substring of) process names."
+  echo "Set the niceness of processes by matching (a substring of) process names."
 else
   echo "📶 Setting niceness $NICENESS for process names containing: $argv[1]";
   for pid in (pgrep -i $argv[1])
