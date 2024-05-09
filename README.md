@@ -160,6 +160,10 @@ Super simple parallization scripts. Example: `map process file1.txt file2.txt`
 
 Run `kill -9` for any processes using a given port. Example: `portkill 8000`
 
+### `set-remote-screen-sharing-resolution`
+
+Set the remote screen sharing resolution for a given computer automatically. Hardcoded to a 5K monitor and the 16-inch MacBook Pro.
+
 ### `symlink-replace`
 
 Replace a symlink with its target.
