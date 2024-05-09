@@ -28,6 +28,16 @@ Convert to `.mp3` with high (but not maximum) quality.
 
 Convert to `.wav`
 
+## focus-modes
+
+### `gaming-mode-on`
+
+Commands to run for turning on gaming mode.
+
+### `gaming-mode-off`
+
+Commands to run for turning off gaming mode.
+
 ## git
 
 ### `gclone`
