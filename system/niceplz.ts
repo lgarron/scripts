@@ -2,7 +2,7 @@
 
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { BunFile, file } from "bun";
+import { $, BunFile, file } from "bun";
 
 const PNICE_FISH = new URL("./pnice.fish", import.meta.url).pathname;
 const PNICE_BIN = (await file(PNICE_FISH).exists()) ? PNICE_FISH : "pnice";
@@ -20,8 +20,5 @@ const config = (await bunFile.json()) as NiceplzConfig;
 for (const [substring, priority] of Object.entries(
   config.processes_by_substring,
 )) {
-  await Bun.spawn({
-    cmd: [PNICE_BIN, substring, `${priority}`],
-    stdout: "inherit",
-  }).exited;
+  await $`${PNICE_BIN} ${substring} ${priority}`;
 }
