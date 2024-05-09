@@ -4,7 +4,7 @@ Many scripts can be installed using: <https://github.com/lgarron/homebrew-lgarro
 
 Many scripts are also written in [`fish`](https://fishshell.com/).
 
-## app-tools
+## `app-tools`
 
 ### `editor-open`
 
@@ -14,7 +14,7 @@ Open a Markdown file in either Obsidian (if in a relevant folder) or VSCode.
 
 Restart [Quicksilver](https://qsapp.com/).
 
-## audio
+## `audio`
 
 ### `flacify`
 
@@ -28,7 +28,7 @@ Convert to `.mp3` with high (but not maximum) quality.
 
 Convert to `.wav`
 
-## focus-modes
+## `focus-modes`
 
 ### `gaming-mode-on`
 
@@ -38,7 +38,7 @@ Commands to run for turning on gaming mode.
 
 Commands to run for turning off gaming mode.
 
-## git
+## `git`
 
 ### `gclone`
 
@@ -68,7 +68,7 @@ Push and update `git` tags automatically.
 
 Get the current or previous project version.
 
-## graphics
+## `graphics`
 
 ### `jpeg-optimize`
 
@@ -102,7 +102,7 @@ Automatically create resized versions of an icon for web app use cases.
 
 Convert an image into an optimized black-and-white file using [this gist by Leland Batey](https://gist.github.com/lelandbatey/8677901).
 
-## maestral
+## `maestral`
 
 ### `dbx-link`
 
@@ -112,7 +112,7 @@ Copy a link to the given path (relative to the current working dir, or absolute)
 
 Open a link to the given path (relative to the current working dir, or absolute) on the Dropbox website in the browser.
 
-## pack
+## `pack`
 
 ### `pack-logs`
 
@@ -122,7 +122,7 @@ Pack argument files into a `logs.7z` file. Example: `pack-logs *.log`
 
 Pack `.bmp` or `.png` files in a folder. Example: `pack-pov cube?????.png`
 
-## storage
+## `storage`
 
 ### `dmgify`
 
@@ -136,7 +136,7 @@ Create a simple HTML folder index for the given input files.
 
 Given either the source or destination of a `DCIM` file backed up using [`sd-card-backup`](https://github.com/lgarron/sd-card-backup), reveal the other.
 
-## system
+## `system`
 
 ### `app-screenshot`
 
@@ -194,7 +194,7 @@ Print the current unix time in seconds. Equivalent to `date +%s` but easier to r
 
 A wrapper for `dig` that allows using `~/.config/dig/digrc` (XDG dir convention compatible) instead of `.digrc`, with reasonable fidelity.
 
-## video
+## `video`
 
 ### `archive-h265-crf18`
 
@@ -208,7 +208,7 @@ Archive a video using MP4 at CRF 18 (moderately high quality setting).
 
 Wraps RX100 AVCHD files into `.mov` so that macOS will read natively, without transcoding the video stream.
 
-## web
+## `web`
 
 ### `add-biome`
 
