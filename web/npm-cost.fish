@@ -10,13 +10,13 @@ set_color --dim
 echo "--------"
 set_color normal
 echo -n "Number of files: "
-find node_modules -type f | ls | wc -l | tr -d " "
+find node_modules -type f | wc -l | tr -d " "
 set_color normal
 
 set_color --dim
 echo "--------"
 set_color normal
-echo "Number of bytes: "
+echo -n "Number of bytes: "
 du -sh node_modules
 
 rm -rf $TEMP_DIR
