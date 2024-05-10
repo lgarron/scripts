@@ -80,7 +80,7 @@ switch (codec_fingerprint) {
     break;
   }
   default: {
-    throw new Error(`Unknown code fingerprint: ${codec_fingerprint}`);
+    throw new Error(`Unknown codec fingerprint: ${codec_fingerprint}`);
   }
 }
 
