@@ -8,14 +8,14 @@ set DATE_STRING (date "+%Y-%m-%d — %H-%M-%S")
 set WINDOW_ID_ARG ""
 if [ "$argv[1]" = "--front-window-shadowed-png" ]
   set WINDOW_ID (osascript -e 'tell application (path to frontmost application as text) to id of window 1')
-  set EXTENSION "png"
+  set EXTENSION "heic"
   set WINDOW_ID_ARG -l$WINDOW_ID
 else if [ "$argv[1]" = "--front-window-shadowless-jpg" ]
   set WINDOW_ID (osascript -e 'tell application (path to frontmost application as text) to id of window 1')
-  set EXTENSION "jpg"
+  set EXTENSION "heic"
   set WINDOW_ID_ARG -l$WINDOW_ID
 else
-  set EXTENSION "jpg"
+  set EXTENSION "heic"
 end
 
 set TEMP_FILE $PARENT_FOLDER/$DATE_STRING" — temp "(time random 1 10000000000).$EXTENSION
