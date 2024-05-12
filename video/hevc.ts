@@ -70,6 +70,7 @@ switch (codec_fingerprint) {
     settings.bit_depth = 8;
     break;
   }
+  case "hevc/yuv420p/bt709/bt709/bt709": // Final Cut export
   case "hevc/yuv420p10le/bt709/undefined/undefined": // Final Cut export?
   case "h264/yuv422p10le/bt709/undefined/undefined": // R5 C using XF-AVC
   // biome-ignore format: https://github.com/biomejs/biome/issues/2786
