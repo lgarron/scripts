@@ -204,6 +204,10 @@ Encode a video using HEVC for excellent archival quality.
 
 Wraps RX100 AVCHD files into a `.mov` that macOS likes.
 
+### `timelapse`
+
+Timelapse a video by averaging frames.
+
 ## `web`
 
 ### `add-biome`
