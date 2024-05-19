@@ -200,6 +200,10 @@ A wrapper for `dig` that allows using `~/.config/dig/digrc` (XDG dir convention 
 
 Encode a video using HEVC for excellent archival quality.
 
+### `mts2mov`
+
+Wraps RX100 AVCHD files into a `.mov` that macOS likes.
+
 ## `web`
 
 ### `add-biome`

@@ -4,7 +4,7 @@ set -e
 
 if [ "$#" -lt "1" ]; then
 	SCRIPT_NAME=$(basename "${0}")
-	echo "Wraps RX100 AVCHD files into a .mov that OSX likes."
+	echo "Wraps RX100 AVCHD files into a \`.mov\` that macOS likes."
 	echo "(Copies audio codec, flattens audio to full-quality PCM.)"
 	echo ""
 	echo "Usage: ${SCRIPT_NAME} 00000.MTS [out-file.mov]"
