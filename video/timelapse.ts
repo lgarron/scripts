@@ -58,7 +58,15 @@ let extraSuffix = "";
         }
       }
       switch (stream.r_frame_rate) {
+        case "30/1": {
+          inputFrameRate = 60;
+          break;
+        }
         case "30000/1001": {
+          inputFrameRate = 60;
+          break;
+        }
+        case "60/1": {
           inputFrameRate = 60;
           break;
         }
