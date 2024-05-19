@@ -6,7 +6,7 @@ import { parseArgs } from "node:util";
 import { $, file, sleep, spawn } from "bun";
 
 const { values: options, positionals } = parseArgs({
-  options: { quality: { type: "string", default: "70" } },
+  options: { quality: { type: "string", default: "65" } },
   allowPositionals: true,
 });
 
