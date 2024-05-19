@@ -3,7 +3,7 @@
 import { rename } from "node:fs/promises";
 import { exit } from "node:process";
 import { parseArgs } from "node:util";
-import { $, file, spawn } from "bun";
+import { $, file, sleep, spawn } from "bun";
 
 const { values: options, positionals } = parseArgs({
   options: { quality: { type: "string", default: "70" } },
@@ -62,6 +62,8 @@ switch (codec_fingerprint) {
     settings.hdrHLG = true;
     break;
   }
+  case "hevc/yuvj420p/bt709/bt709/bt709":
+  case "hevc/yuv420p/bt709/bt709/bt709": // Final Cut export
   case "h264/yuvj420p/smpte170m/smpte432/bt709": // iPhone 15 Pro
   // biome-ignore format: https://github.com/biomejs/biome/issues/2786
   case "h264/yuv420p/bt709/bt709/bt709": // macOS Screen capture
@@ -70,12 +72,26 @@ switch (codec_fingerprint) {
     settings.bit_depth = 8;
     break;
   }
-  case "hevc/yuv420p/bt709/bt709/bt709": // Final Cut export
+  // biome-ignore format: https://github.com/biomejs/biome/issues/2786
+  case  "hevc/yuv420p10le/bt709/bt709/bt709": // `hevc`'s own output
+  {
+    console.warn(`
+Detected \`hevc\`'s own output with an accidental 10-bit encoding for 8-bit video data. This is not an issue if you expected it, but you may want to run \`hevc\` on the original source if it's still available.
+`);
+    console.write("Continuing.");
+    await sleep(1000);
+    console.write(".");
+    await sleep(1000);
+    console.write(".");
+    await sleep(1000);
+    console.log();
+    // biome-ignore lint/suspicious/noFallthroughSwitchClause: Intentional
+    // fallthrough
+  }
   case "hevc/yuv420p10le/bt709/undefined/undefined": // Final Cut export?
   case "h264/yuv422p10le/bt709/undefined/undefined": // R5 C using XF-AVC
-  // biome-ignore format: https://github.com/biomejs/biome/issues/2786
-  case "hevc/yuv422p10le/bt709/undefined/undefined": // R5 C HEVC (e.g. BT.709 or CLog 3)
-  {
+  case "hevc/yuv422p10le/bt709/undefined/undefined": {
+    // biome-ignore format: https://github.com/biomejs/biome/issues/2786 // R5 C HEVC (e.g. BT.709 or CLog 3)
     console.log("Detected 10-bit SDR (or SDR-mapped) footage.");
     settings.bit_depth = 10;
     break;
