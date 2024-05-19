@@ -62,6 +62,7 @@ switch (codec_fingerprint) {
     settings.hdrHLG = true;
     break;
   }
+  case "vp9/yuv420p/bt709/undefined/undefined": // ???
   case "vp9/yuv420p/bt709/bt709/bt709": // YouTube
   case "h264/yuv420p/smpte170m/bt470bg/bt709": // ???
   case "hevc/yuvj420p/bt709/bt709/bt709":
