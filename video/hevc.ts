@@ -63,7 +63,8 @@ switch (codec_fingerprint) {
     break;
   }
   case "vp9/yuv420p/bt709/undefined/undefined": // ???
-  case "vp9/yuv420p/bt709/bt709/bt709": // YouTube
+  case "vp9/yuv420p/bt709/bt709/bt709": // YouTube (SDR)
+  case "vp9/yuv420p10le/bt2020nc/bt2020/arib-std-b67": // YouTube (HLG)
   case "h264/yuv420p/smpte170m/bt470bg/bt709": // ???
   case "hevc/yuvj420p/bt709/bt709/bt709":
   case "hevc/yuv420p/bt709/bt709/bt709": // Final Cut export
