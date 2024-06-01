@@ -62,6 +62,7 @@ switch (codec_fingerprint) {
     settings.hdrHLG = true;
     break;
   }
+  case "mpeg2video/yuv420p/smpte170m/smpte170m/smpte170m": // DVD?
   case "h264/yuv420p/bt470bg/bt470bg/smpte170m": // Oculus Quest 1 screen captures
   case "vp9/yuv420p/bt709/undefined/undefined": // ???
   case "vp9/yuv420p/bt709/bt709/bt709": // YouTube (SDR)
