@@ -56,6 +56,7 @@ const settings = {
 switch (codec_fingerprint) {
   // biome-ignore format: https://github.com/biomejs/biome/issues/2786
   case "hevc/yuv422p10le/bt2020nc/bt2020/arib-std-b67": // Final cut HLG export?
+  case "vp9/yuv420p10le/bt2020nc/bt2020/arib-std-b67": // YouTube (HLG)
   {
     console.log("Detected 10-bit HDR footage.");
     settings.bit_depth = 10;
@@ -66,7 +67,6 @@ switch (codec_fingerprint) {
   case "h264/yuv420p/bt470bg/bt470bg/smpte170m": // Oculus Quest 1 screen captures
   case "vp9/yuv420p/bt709/undefined/undefined": // ???
   case "vp9/yuv420p/bt709/bt709/bt709": // YouTube (SDR)
-  case "vp9/yuv420p10le/bt2020nc/bt2020/arib-std-b67": // YouTube (HLG)
   case "h264/yuv420p/smpte170m/bt470bg/bt709": // ???
   case "hevc/yuvj420p/bt709/bt709/bt709":
   case "hevc/yuv420p/bt709/bt709/bt709": // Final Cut export
