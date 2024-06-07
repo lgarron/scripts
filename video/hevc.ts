@@ -49,37 +49,31 @@ const codec_fingerprint = `${videoStream.codec_name}/${videoStream.pix_fmt}/${vi
 
 console.log(codec_fingerprint);
 
-const settings = {
-  bit_depth: 8,
-  hdrHLG: false,
-};
-switch (codec_fingerprint) {
-  // biome-ignore format: https://github.com/biomejs/biome/issues/2786
-  case "hevc/yuv422p10le/bt2020nc/bt2020/arib-std-b67": // Final cut HLG export?
-  case "vp9/yuv420p10le/bt2020nc/bt2020/arib-std-b67": // YouTube (HLG)
-  {
-    console.log("Detected 10-bit HDR footage.");
-    settings.bit_depth = 10;
-    settings.hdrHLG = true;
-    break;
-  }
-  case "mpeg2video/yuv420p/smpte170m/smpte170m/smpte170m": // DVD?
-  case "h264/yuv420p/bt470bg/bt470bg/smpte170m": // Oculus Quest 1 screen captures
-  case "vp9/yuv420p/bt709/undefined/undefined": // ???
-  case "vp9/yuv420p/bt709/bt709/bt709": // YouTube (SDR)
-  case "h264/yuv420p/smpte170m/bt470bg/bt709": // ???
-  case "hevc/yuvj420p/bt709/bt709/bt709":
-  case "hevc/yuv420p/bt709/bt709/bt709": // Final Cut export
-  case "h264/yuvj420p/smpte170m/smpte432/bt709": // iPhone 15 Pro
-  // biome-ignore format: https://github.com/biomejs/biome/issues/2786
-  case "h264/yuv420p/bt709/bt709/bt709": // macOS Screen capture
+const handbrakePreset = await (async () => {
+  switch (codec_fingerprint) {
+    // biome-ignore format: https://github.com/biomejs/biome/issues/2786
+    case "hevc/yuv422p10le/bt2020nc/bt2020/arib-std-b67": // Final cut HLG export?
+    case "vp9/yuv420p10le/bt2020nc/bt2020/arib-std-b67": {
+      // YouTube (HLG)
+      console.log("Detected 10-bit HDR footage.");
+      return "HEVC 10-bit (qv65)";
+    }
+    case "mpeg2video/yuv420p/smpte170m/smpte170m/smpte170m": // DVD?
+    case "h264/yuv420p/bt470bg/bt470bg/smpte170m": // Oculus Quest 1 screen captures
+    case "vp9/yuv420p/bt709/undefined/undefined": // ???
+    case "vp9/yuv420p/bt709/bt709/bt709": // YouTube (SDR)
+    case "h264/yuv420p/smpte170m/bt470bg/bt709": // ???
+    case "hevc/yuvj420p/bt709/bt709/bt709":
+    case "hevc/yuv420p/bt709/bt709/bt709": // Final Cut export
+    case "h264/yuvj420p/smpte170m/smpte432/bt709": // iPhone 15 Pro
+    // biome-ignore format: https://github.com/biomejs/biome/issues/2786
+    case "h264/yuv420p/bt709/bt709/bt709": // macOS Screen capture
   {
     console.log("Detected 8-bit SDR (or SDR-mapped) footage.");
-    settings.bit_depth = 8;
-    break;
+    return "HEVC 8-bit (qv65)";
   }
-  // biome-ignore format: https://github.com/biomejs/biome/issues/2786
-  case  "hevc/yuv420p10le/bt709/bt709/bt709": // `hevc`'s own output
+    // biome-ignore format: https://github.com/biomejs/biome/issues/2786
+    case  "hevc/yuv420p10le/bt709/bt709/bt709": // `hevc`'s own output
   {
     console.warn(`
 Detected \`hevc\`'s own output with an accidental 10-bit encoding for 8-bit video data. This is not an issue if you expected it, but you may want to run \`hevc\` on the original source if it's still available.
@@ -94,73 +88,61 @@ Detected \`hevc\`'s own output with an accidental 10-bit encoding for 8-bit vide
     // biome-ignore lint/suspicious/noFallthroughSwitchClause: Intentional
     // fallthrough
   }
-  case "hevc/yuv420p10le/bt709/undefined/undefined": // Final Cut export?
-  case "h264/yuv422p10le/bt709/undefined/undefined": // R5 C using XF-AVC
-  case "hevc/yuv422p10le/bt709/undefined/undefined": {
-    // biome-ignore format: https://github.com/biomejs/biome/issues/2786 // R5 C HEVC (e.g. BT.709 or CLog 3)
-    console.log("Detected 10-bit SDR (or SDR-mapped) footage.");
-    settings.bit_depth = 10;
-    break;
+    case "hevc/yuv420p10le/bt709/undefined/undefined": // Final Cut export?
+    case "h264/yuv422p10le/bt709/undefined/undefined": // R5 C using XF-AVC
+    case "hevc/yuv422p10le/bt709/undefined/undefined": {
+      // biome-ignore format: https://github.com/biomejs/biome/issues/2786 // R5 C HEVC (e.g. BT.709 or CLog 3)
+      console.log("Detected 10-bit SDR (or SDR-mapped) footage.");
+      return "HEVC 10-bit (qv65)";
+    }
+    default: {
+      throw new Error(`Unknown codec fingerprint: ${codec_fingerprint}`);
+    }
   }
-  default: {
-    throw new Error(`Unknown codec fingerprint: ${codec_fingerprint}`);
-  }
-}
-
-if (settings.hdrHLG) {
-  throw new Error(
-    "Haven't figured out how to do HDR tone mapping preservation yet.",
-  );
-}
-
-const profile = settings.bit_depth === 10 ? "main10" : "main";
-// TODO: // TODO: why doesn't yuv422p10 work for 10-bit?
-const pix_fmt = settings.bit_depth === 10 ? "p010le" : "yuvj420p";
+})();
 
 let destPrefix = `${inputFile}.hevc.qv${quality}`;
 if (await file(`${destPrefix}.mp4`).exists()) {
-  destPrefix = `${inputFile}.hevc.qv${quality}.${new Date().toISOString()}`;
+  destPrefix = `${inputFile}.hevc.qv${quality}.${new Date()
+    .toISOString()
+    .replaceAll(":", "-")}`;
 }
 const dest = `${destPrefix}.mp4`;
-const tempDest = `${destPrefix}.temp.mp4`;
+
+console.log(
+  [
+    "HandBrakeCLI",
+    "--preset-import-file",
+    "/Users/lgarron/Code/git/github.com/lgarron/dotfiles/exported/HandBrake/UserPresets.json", // TODO
+    inputFile,
+    "--preset",
+    handbrakePreset,
+    "--quality",
+    quality.toString(),
+    "-i",
+    "clip.mov",
+    "-o",
+    dest,
+  ].join(),
+);
 
 if (
-  // TODO: process HLG without breaking colors.
   // TODO: transfer HiDPI hint (e.g. for screencaps)
   (await spawn([
-    "ffmpeg",
-    // Input
+    "HandBrakeCLI",
+    "--preset-import-file",
+    "/Users/lgarron/Code/git/github.com/lgarron/dotfiles/exported/HandBrake/UserPresets.json", // TODO
+    "--preset",
+    handbrakePreset,
+    "--quality",
+    quality.toString(),
     "-i",
     inputFile,
-    // Encoder
-    "-c:v",
-    "hevc_videotoolbox", // fast encoding
-    "-q:v",
-    quality.toString(), // Quality setting up to 100
-    // File format
-    "-tag:v",
-    "hvc1", // Needed to play in Quicktime
-    "-f",
-    "mp4",
-    // Quality of life
-    "-movflags",
-    "faststart", // Streaming
-    "-movflags",
-    "write_colr", // Color …?
-    "-movflags",
-    "frag_keyframe", // Allow the file to be readable even if it's not finished being written.
-    // Bit depth
-    "-profile:v",
-    profile,
-    "-pix_fmt",
-    pix_fmt,
-    // Output
-    tempDest,
+    "-o",
+    dest,
   ]).exited) !== 0
 ) {
   throw new Error();
 }
-
-await rename(tempDest, dest);
 
 // TODO: catch Ctrl-c and rename to indicate partial transcoding
