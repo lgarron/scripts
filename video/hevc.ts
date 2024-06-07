@@ -67,6 +67,7 @@ const handbrakePreset = await (async () => {
   switch (codec_fingerprint) {
     // biome-ignore format: https://github.com/biomejs/biome/issues/2786
     case "hevc/yuv422p10le/bt2020nc/bt2020/arib-std-b67": // Final cut HLG export?
+    case "av1/yuv420p10le/bt2020nc/bt2020/arib-std-b67": // YouTube
     case "vp9/yuv420p10le/bt2020nc/bt2020/arib-std-b67": {
       // YouTube (HLG)
       console.log("Detected 10-bit HDR footage.");
