@@ -1,17 +1,31 @@
 #!/usr/bin/env bun
 
-import { rename } from "node:fs/promises";
 import { exit } from "node:process";
 import { parseArgs } from "node:util";
 import { $, file, sleep, spawn } from "bun";
 
 const { values: options, positionals } = parseArgs({
-  options: { quality: { type: "string", default: "65" } },
+  options: {
+    quality: { type: "string", default: "65" },
+    help: { type: "boolean" },
+  },
   allowPositionals: true,
 });
 
+function printHelp() {
+  console.info(`Usage: hevc [--quality VALUE] <INPUT-FILE>
+
+Default quality is 65.`);
+}
+
+if (options.help) {
+  printHelp();
+  exit(0);
+}
+
 if (positionals.length < 1) {
   console.error("Pass a file!");
+  printHelp();
   exit(1);
 }
 let quality: number;
