@@ -124,38 +124,24 @@ if (await file(`${destPrefix}.mp4`).exists()) {
 }
 const dest = `${destPrefix}.mp4`;
 
-console.log(
-  [
-    "HandBrakeCLI",
-    "--preset-import-file",
-    "/Users/lgarron/Code/git/github.com/lgarron/dotfiles/exported/HandBrake/UserPresets.json", // TODO
-    inputFile,
-    "--preset",
-    handbrakePreset,
-    "--quality",
-    quality.toString(),
-    "-i",
-    "clip.mov",
-    "-o",
-    dest,
-  ].join(),
-);
-
 if (
   // TODO: transfer HiDPI hint (e.g. for screencaps)
-  (await spawn([
-    "HandBrakeCLI",
-    "--preset-import-file",
-    "/Users/lgarron/Code/git/github.com/lgarron/dotfiles/exported/HandBrake/UserPresets.json", // TODO
-    "--preset",
-    handbrakePreset,
-    "--quality",
-    quality.toString(),
-    "-i",
-    inputFile,
-    "-o",
-    dest,
-  ]).exited) !== 0
+  (await spawn(
+    [
+      "HandBrakeCLI",
+      "--preset-import-file",
+      "/Users/lgarron/Code/git/github.com/lgarron/dotfiles/exported/HandBrake/UserPresets.json", // TODO
+      "--preset",
+      handbrakePreset,
+      "--quality",
+      quality.toString(),
+      "-i",
+      inputFile,
+      "-o",
+      dest,
+    ],
+    { stdout: "inherit", stderr: "inherit" },
+  ).exited) !== 0
 ) {
   throw new Error();
 }
