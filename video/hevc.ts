@@ -73,7 +73,8 @@ const handbrakePreset = await (async () => {
     }
     case "yuv420p/smpte170m":
     case "yuv420p/bt709":
-    case "yuvj420p/bt709": {
+    case "yuvj420p/bt709":
+    case "yuv444p/undefined": {
       console.log("Detected 8-bit SDR (or SDR-mapped) footage.");
       return "HEVC 8-bit (qv65)";
     }
