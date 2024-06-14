@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/fish --no-config
+#!/usr/bin/env -S fish --no-config
 
 if fish_is_root_user
   powermetrics -n 1 -i 1 -s thermal | grep "Current pressure level"
