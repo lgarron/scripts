@@ -136,6 +136,12 @@ Create a simple HTML folder index for the given input files.
 
 Given either the source or destination of a `DCIM` file backed up using [`sd-card-backup`](https://github.com/lgarron/sd-card-backup), reveal the other.
 
+## `sudo`
+
+### `thermal-pressure`
+
+Get thermal pressure on macOS without `sudo`ing every time.
+
 ## `system`
 
 ### `app-screenshot`
