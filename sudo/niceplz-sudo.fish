@@ -7,7 +7,8 @@ end
 
 # TODO: This is an arbitrary choice of install location outside `$PATH`. There's probably a more canonical choice.
 set HELPER_FOLDER "/Library/Application Support/niceplz"
-set HELPER_PATH "$HELPER_FOLDER/niceplz-sudo-helper"
+set HELPER_FILENAME "niceplz-sudo-helper"
+set HELPER_PATH "$HELPER_FOLDER/$HELPER_FILENAME"
 
 set HELPER_PATH_WITH_ESCAPED_SPACES (echo $HELPER_PATH | sed "s# #\\\\ #g")
 
@@ -24,7 +25,7 @@ function install_helper
     echo "$USER    ALL= NOPASSWD: $HELPER_PATH_WITH_ESCAPED_SPACES" | sudo tee -a /etc/sudoers > /dev/null
   end
   # TODO: Is this vulnerable to user name injection?
-  sudo cat /etc/sudoers | grep niceplz | grep "^$USER" ; or grant_sudo
+  sudo cat /etc/sudoers | grep $HELPER_FILENAME | grep "^$USER" ; or grant_sudo
 end
 
 function run_helper

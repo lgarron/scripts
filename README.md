@@ -142,6 +142,10 @@ Given either the source or destination of a `DCIM` file backed up using [`sd-car
 
 Get thermal pressure on macOS without `sudo`ing every time.
 
+### `niceplz-sudo`
+
+Run `niceplz` without `sudo`ing every time.
+
 ## `system`
 
 ### `app-screenshot`

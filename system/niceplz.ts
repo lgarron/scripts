@@ -20,5 +20,9 @@ const config = (await bunFile.json()) as NiceplzConfig;
 for (const [substring, priority] of Object.entries(
   config.processes_by_substring,
 )) {
-  await $`${PNICE_BIN} ${substring} ${priority}`;
+  try {
+    await $`${PNICE_BIN} ${substring} ${priority}`;
+  } catch {
+    console.error(`Process pattern not found. Skipping: ${substring}`);
+  }
 }
