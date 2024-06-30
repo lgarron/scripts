@@ -1,17 +1,9 @@
-// #!/usr/bin/env -S fish --no-config
+#!/usr/bin/env bun
 
 import { mkdir, readdir } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { exit } from "node:process";
 import { $, argv, file } from "bun";
-
-// if type -d
-
-// # for file in *.png *.heic *.jpg *.jpeg
-// #     echo $file
-// #     cjxl --effort 10 $file "../No Man's Sky (JXL)/$file.jxl"
-// #     touch -r $file "../No Man's Sky (JXL)/$file.jxl"
-// # end
 
 const folder = argv[2]; // TODO
 if (!folder) {
