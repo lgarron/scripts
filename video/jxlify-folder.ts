@@ -25,14 +25,14 @@ const folderName = basename(folder);
 const jxlFolderName = join(folderParent, `${folderName} (JXL)`);
 mkdir(jxlFolderName, { recursive: true });
 
-for (const fileName of await readdir(folder)) {
+async function processFile(fileName: string) {
   const sourceFile = join(folder, fileName);
   const targetFile = join(jxlFolderName, `${fileName}.jxl`);
   console.log("--------");
   console.log(`${fileName} → ${targetFile}`);
   if (await file(targetFile).exists()) {
-    console.log("Exists!");
-    continue;
+    console.log("Already exists!");
+    return;
   }
   try {
     await $`cjxl --effort 10 ${sourceFile} ${targetFile}`;
@@ -41,3 +41,24 @@ for (const fileName of await readdir(folder)) {
     console.error(e);
   }
 }
+
+const queue = await readdir(folder);
+function next(): string | undefined {
+  const [v] = queue.splice(0, 1);
+  return v;
+}
+
+async function worker() {
+  let v = next();
+  while (v) {
+    await processFile(v);
+    v = next();
+  }
+}
+
+const NUM_WORKERS = 8;
+const workers = [];
+for (let i = 0; i < NUM_WORKERS; i++) {
+  workers.push(worker());
+}
+await Promise.all(workers);
