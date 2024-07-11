@@ -38,6 +38,12 @@ Commands to run for turning on gaming mode.
 
 Commands to run for turning off gaming mode.
 
+## `games`
+
+### `civ6-auto-resolution`
+
+Automatically set the full screen resolution for Civilization (with hardcoded values).
+
 ## `git`
 
 ### `gclone`
