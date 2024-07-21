@@ -3,7 +3,8 @@
 // Hardcoded for my own `sd-card-backup` configuration.
 
 import { stat } from "node:fs/promises";
-import { extname } from "node:path";
+import { homedir } from "node:os";
+import { extname, join } from "node:path";
 import { exit } from "node:process";
 import { $, argv } from "bun";
 
@@ -12,13 +13,21 @@ if (!filePath) {
   throw new Error("Must supply a path.");
 }
 
-const BACKUP_DRIVE = "Trenzalore";
+const destinationRoot: string = (
+  await Bun.file(join(homedir(), "/.config/sd-card-backup/config.json")).json()
+).destination_root;
+const destinationRootParts = destinationRoot.split("/");
+const [configBackupDrive] = destinationRootParts.splice(2, 1);
+if (destinationRootParts.join("###") !== "###Volumes###SD Card Backup###") {
+  console.error(`Destination root is not supported yet: ${destinationRoot}`);
+  exit(1);
+}
 
 const parts = filePath.split("/");
 
 // TODO: folder mappings other than DCIM
 
-if (parts[2] === BACKUP_DRIVE) {
+if (parts[2] === configBackupDrive) {
   if (parts.length !== 11) {
     throw new Error("Invalid path.");
   }
@@ -38,7 +47,7 @@ if (parts[2] === BACKUP_DRIVE) {
   if (
     root !== "" ||
     Volumes !== "Volumes" ||
-    backupDrive !== BACKUP_DRIVE ||
+    backupDrive !== configBackupDrive ||
     SDCardBackup !== "SD Card Backup" ||
     DCIM !== "DCIM"
   ) {
@@ -135,7 +144,7 @@ if (imageExtensions[extension]) {
 const targetParts = [
   "",
   "Volumes",
-  BACKUP_DRIVE,
+  configBackupDrive,
   "SD Card Backup",
   targetClassificationFolder,
   yearString,
