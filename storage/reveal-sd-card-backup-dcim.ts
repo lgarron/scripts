@@ -79,11 +79,11 @@ if (root !== "" || Volumes !== "Volumes" || DCIM !== "DCIM") {
 }
 
 const statResult = await stat(filePath);
-const yearString = statResult.ctime.getFullYear().toString();
-const monthString = (statResult.ctime.getMonth() + 1)
+const yearString = statResult.birthtime.getFullYear().toString();
+const monthString = (statResult.birthtime.getMonth() + 1)
   .toString()
   .padStart(2, "0");
-const dayString = statResult.ctime.getDate().toString().padStart(2, "0");
+const dayString = statResult.birthtime.getDate().toString().padStart(2, "0");
 const dateString = [yearString, monthString, dayString].join("-");
 
 const imageExtensions = {
