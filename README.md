@@ -258,10 +258,6 @@ Roll a dependency to the latest version and install using `npm`.
 
 Get the current open Safari tab.
 
-### `ts`
-
-Bundles and runs the given entry file using [`esbuild`](https://esbuild.github.io/).
-
 ### `weblocify`
 
 Create a `.webloc` file for the given URL. Example (using `chrometab` in `fish`): `weblocify (chrometab) bookmark-file.webloc`
