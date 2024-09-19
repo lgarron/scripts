@@ -1,6 +1,5 @@
 #!/usr/bin/env -S fish --no-config
 
-open -a "Background Music"
 # We set the pause to 6 hours. This is rather long, but it's immediately reset by the corresponding off script.
 /Applications/Arq.app/Contents/Resources/arqc pauseBackups 360 > /dev/null
 
