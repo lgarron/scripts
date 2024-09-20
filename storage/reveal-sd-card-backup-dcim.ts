@@ -40,7 +40,7 @@ if (parts[2] === configBackupDrive) {
     _year,
     _date,
     cardName,
-    DCIM,
+    DCIM_OR_CRM,
     parentFolderName,
     fileName,
   ] = parts;
@@ -49,7 +49,7 @@ if (parts[2] === configBackupDrive) {
     Volumes !== "Volumes" ||
     backupDrive !== configBackupDrive ||
     SDCardBackup !== "SD Card Backup" ||
-    DCIM !== "DCIM"
+    !["DCRIM", "CRM"].includes(DCIM_OR_CRM)
   ) {
     throw new Error("Invalid path!");
   }
@@ -57,7 +57,7 @@ if (parts[2] === configBackupDrive) {
     "",
     "Volumes",
     cardName,
-    "DCIM",
+    DCIM_OR_CRM,
     parentFolderName,
     fileName,
   ];
@@ -72,9 +72,14 @@ if (parts[2] === configBackupDrive) {
 if (parts.length !== 6) {
   throw new Error("Invalid path.");
 }
-const [root, Volumes, cardName, DCIM, parentFolderName, fileName] = parts;
+const [root, Volumes, cardName, DCIM_OR_CRM, parentFolderName, fileName] =
+  parts;
 
-if (root !== "" || Volumes !== "Volumes" || DCIM !== "DCIM") {
+if (
+  root !== "" ||
+  Volumes !== "Volumes" ||
+  !["DCRIM", "CRM"].includes(DCIM_OR_CRM)
+) {
   throw new Error("Invalid path!");
 }
 
@@ -150,7 +155,7 @@ const targetParts = [
   yearString,
   dateString,
   cardName,
-  "DCIM",
+  DCIM_OR_CRM,
   parentFolderName,
   fileName,
 ];
