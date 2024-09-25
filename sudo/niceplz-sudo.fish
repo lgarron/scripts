@@ -32,11 +32,19 @@ function run_helper
   sudo $HELPER_PATH
 end
 
+function has_sudo
+  sudo -l | grep $HELPER_FILENAME > /dev/null
+end
+
 if test -e $HELPER_PATH
   set HELPER_HASH (openssl dgst -sha256 $HELPER_PATH | awk '{print $NF}')
   set OWN_HASH (openssl dgst -sha256 (status --current-filename) | awk '{print $NF}')
   if [ $HELPER_HASH != $OWN_HASH ]
-    echo "Helper is out of date and needs to be installed again." 1>&2
+    echo "Helper is out of date and needs to be installed." 1>&2
+    install_helper
+  end
+  if ! has_sudo
+    echo "Sudo permission is missing and needs to be installed." 1>&2
     install_helper
   end
   run_helper
