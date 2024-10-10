@@ -10,6 +10,10 @@ Many scripts are also written in [`fish`](https://fishshell.com/).
 
 Open a Markdown file in either Obsidian (if in a relevant folder) or VSCode.
 
+### `openscad-auto`
+
+Run `openscad` on a `.scad` file with defaults.
+
 ### `restart-qs`
 
 Restart [Quicksilver](https://qsapp.com/).
