@@ -134,6 +134,10 @@ Pack `.bmp` or `.png` files in a folder. Example: `pack-pov cube?????.png`
 
 ## `storage`
 
+### `counter-file`
+
+Maintains a simple JSON counter file.
+
 ### `dmgify`
 
 Create a `.dmg` out of a folder. Can be as useful as a `.zip` file, but allows mounting and editing in macOS without any special tools. Example: `dmgify ./path/to/folder`
