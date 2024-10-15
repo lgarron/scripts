@@ -49,7 +49,7 @@ if (parts[2] === configBackupDrive) {
     Volumes !== "Volumes" ||
     backupDrive !== configBackupDrive ||
     SDCardBackup !== "SD Card Backup" ||
-    !["DCRIM", "CRM"].includes(DCIM_OR_CRM)
+    !["DCIM", "CRM"].includes(DCIM_OR_CRM)
   ) {
     throw new Error("Invalid path!");
   }
@@ -78,7 +78,7 @@ const [root, Volumes, cardName, DCIM_OR_CRM, parentFolderName, fileName] =
 if (
   root !== "" ||
   Volumes !== "Volumes" ||
-  !["DCRIM", "CRM"].includes(DCIM_OR_CRM)
+  !["DCIM", "CRM"].includes(DCIM_OR_CRM)
 ) {
   throw new Error("Invalid path!");
 }
