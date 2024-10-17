@@ -335,14 +335,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "368758f23274712b504848e9d5a6f010445cc8b87a7cdb4d7cbee666c1288da3"
 
 [[package]]
-name = "scripts"
+name = "script-helpers"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2441ac4fee4b209f77bcc7fecdb16ab81eccf348d5a9a5e1ffa819fc66780924"
 dependencies = [
  "chrono",
  "clap",
  "clap_complete",
  "hex",
  "sha2",
+]
+
+[[package]]
+name = "scripts"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "clap",
+ "clap_complete",
+ "script-helpers",
  "shell-quote",
 ]
 

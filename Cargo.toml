@@ -9,8 +9,7 @@ edition = "2021"
 chrono = "0.4.38"
 clap = { version = "4.5.20", features = ["derive"] }
 clap_complete = "4.5.33"
-hex = "0.4.3"
-sha2 = "0.10.8"
+script-helpers = "0.1.0"
 shell-quote = "0.7.1"
 
 [[bin]]

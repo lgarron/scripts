@@ -6,8 +6,7 @@ edition = "2021"
 chrono = "0.4.38"
 clap = { version = "4.5.20", features = ["derive"] }
 clap_complete = "4.5.33"
-hex = "0.4.3"
-sha2 = "0.10.8"
+script-helpers = "0.1.0"
 shell-quote = "0.7.1"
 ---
 
@@ -17,12 +16,12 @@ use chrono::Local;
 use clap::{CommandFactory, Parser, ValueEnum};
 use clap_complete::generator::generate;
 use clap_complete::Shell;
-use sha2::{Digest, Sha256};
+use script_helpers::{any_line_starts_with, back_up_existing_file, sha256_hash_file_to_string};
 use shell_quote::{Bash, QuoteRefExt};
-use std::fs::{rename, File, OpenOptions};
+use std::fs::OpenOptions;
 use std::io::stdout;
+use std::io::BufRead;
 use std::io::Write;
-use std::io::{self, BufRead};
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::{exit, Command};
@@ -30,18 +29,17 @@ use std::process::{exit, Command};
 const BIN_NAME: &str = "openscad-auto"; // TODO: get this from `clap`
 
 const LOW_FI_DEV_FALSE: &str = "LOW_FI_DEV = false;";
-const ERROR_COULD_NOT_FIND_SOURCE_FILE: &str = "Could not open source file.";
 
 #[derive(Parser, Debug)]
 #[clap(version)]
 struct Args {
-    #[clap(verbatim_doc_comment, group="task")]
+    #[clap(verbatim_doc_comment, group = "task")]
     source: Option<PathBuf>,
 
     #[clap(long, default_value = "3mf")]
     format: OutputFormat,
 
-    #[clap(long, group="task", id = "SHELL")]
+    #[clap(long, group = "task", id = "SHELL")]
     completions: Option<Shell>,
 
     #[clap(long)]
@@ -87,12 +85,12 @@ fn main() {
     };
 
     // TODO: Tee the source `File` instead of reading multiple times?
-    if !args.skip_low_fi_check && low_fi_guard(&source_file).is_err() {
+    if !args.skip_low_fi_check && !any_line_starts_with(&source_file, LOW_FI_DEV_FALSE) {
         eprintln!("Could not verify that the file is set to hi-fi. Please make sure the following line is present:
 {}", LOW_FI_DEV_FALSE);
         exit(1);
     }
-    let sha256_hash = sha256(&source_file);
+    let sha256_hash = sha256_hash_file_to_string(&source_file);
 
     let target_file_string = format!(
         "{}.{}",
@@ -170,46 +168,4 @@ fn main() {
         .unwrap()
         .wait()
         .unwrap();
-}
-
-fn low_fi_guard(source: &Path) -> Result<(), ()> {
-    for line in read_lines(source)
-        .expect(ERROR_COULD_NOT_FIND_SOURCE_FILE)
-        .map_while(Result::ok)
-    {
-        if line.starts_with(LOW_FI_DEV_FALSE) {
-            return Ok(());
-        };
-    }
-    Err(())
-}
-
-// The output is wrapped in a Result to allow matching on errors.
-// Returns an Iterator to the Reader of the lines of the file.
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where
-    P: AsRef<Path>,
-{
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
-}
-
-fn sha256(source: &Path) -> String {
-    let mut file = File::open(source).expect(ERROR_COULD_NOT_FIND_SOURCE_FILE);
-    let mut hasher = Sha256::new();
-    io::copy(&mut file, &mut hasher).expect("Could not hash source file.");
-    let hash = hasher.finalize();
-    hex::encode(hash)
-}
-
-fn back_up_existing_file(file: &Path, extension: &str) {
-    if file.exists() {
-        let date = Local::now().format("%Y-%m-%d_%H-%M-%S");
-        let backup_file_name = format!("{}.back.{}.{}", file.to_string_lossy(), date, extension);
-        println!(
-            "➡️ Output file already exists. Moving to: {}",
-            backup_file_name
-        );
-        rename(file, backup_file_name).expect("Could not back up existing target file.");
-    }
 }
