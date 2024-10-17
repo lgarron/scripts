@@ -1,0 +1,18 @@
+[package]
+name = "scripts"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = "0.4.38"
+clap = { version = "4.5.20", features = ["derive"] }
+clap_complete = "4.5.33"
+hex = "0.4.3"
+sha2 = "0.10.8"
+shell-quote = "0.7.1"
+
+[[bin]]
+name = "openscad-auto"
+path = "./app-tools/openscad-auto.rs"

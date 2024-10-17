@@ -12,7 +12,7 @@ Open a Markdown file in either Obsidian (if in a relevant folder) or VSCode.
 
 ### `openscad-auto`
 
-Run `openscad` to convert `.scad` file to `.stl` file with defaults.
+Run `openscad` to convert `.scad` file to `.3mf` or `.stl` file with defaults.
 
 ### `restart-qs`
 
