@@ -44,6 +44,9 @@ struct Args {
 
     #[clap(long)]
     skip_low_fi_check: bool,
+
+    #[clap(long)]
+    reveal: bool,
 }
 
 #[derive(Clone, Debug, ValueEnum)]
@@ -168,4 +171,16 @@ fn main() {
         .unwrap()
         .wait()
         .unwrap();
+
+    if args.reveal {
+        Command::new("open")
+            .args(vec![
+                "-R",
+                 &quoted_target_file,
+            ])
+            .spawn()
+            .unwrap()
+            .wait()
+            .unwrap();
+    }
 }
