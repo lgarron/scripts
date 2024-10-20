@@ -16,7 +16,7 @@ use chrono::Local;
 use clap::{CommandFactory, Parser, ValueEnum};
 use clap_complete::generator::generate;
 use clap_complete::Shell;
-use script_helpers::{any_line_starts_with, back_up_existing_file, sha256_hash_file_to_string};
+use script_helpers::{back_up_existing_file, sha256_hash_file_to_string};
 use shell_quote::{Bash, QuoteRefExt};
 use std::fs::OpenOptions;
 use std::io::stdout;
@@ -27,8 +27,6 @@ use std::path::PathBuf;
 use std::process::{exit, Command};
 
 const BIN_NAME: &str = "openscad-auto"; // TODO: get this from `clap`
-
-const LOW_FI_DEV_FALSE: &str = "LOW_FI_DEV = false;";
 
 #[derive(Parser, Debug)]
 #[clap(version)]
@@ -43,10 +41,10 @@ struct Args {
     completions: Option<Shell>,
 
     #[clap(long)]
-    skip_low_fi_check: bool,
+    notify: bool,
 
     #[clap(long)]
-    reveal: bool,
+    no_reveal: bool,
 }
 
 #[derive(Clone, Debug, ValueEnum)]
@@ -87,12 +85,6 @@ fn main() {
         exit(1);
     };
 
-    // TODO: Tee the source `File` instead of reading multiple times?
-    if !args.skip_low_fi_check && !any_line_starts_with(&source_file, LOW_FI_DEV_FALSE) {
-        eprintln!("Could not verify that the file is set to hi-fi. Please make sure the following line is present:
-{}", LOW_FI_DEV_FALSE);
-        exit(1);
-    }
     let sha256_hash = sha256_hash_file_to_string(&source_file);
 
     let target_file_string = format!(
@@ -153,31 +145,30 @@ fn main() {
     .expect("Could not write comment to target file.");
 
     let quoted_target_file: String = (target_file.to_string_lossy()).quoted(Bash);
-    Command::new("terminal-notifier")
-        .args(vec![
-            "-title",
-            "openscad-auto",
-            "-message",
-            &format!(
-                "⏭️ Done converting: {}
-⏱️ Total rendering time: {}",
-                source_file.to_string_lossy(),
-                total_rendering_time_string
-            ),
-            "-execute",
-            &format!("open -R {}", quoted_target_file),
-        ])
-        .spawn()
-        .unwrap()
-        .wait()
-        .unwrap();
-
-    if args.reveal {
-        Command::new("open")
+    if args.notify {
+        Command::new("terminal-notifier")
             .args(vec![
-                "-R",
-                 &quoted_target_file,
+                "-title",
+                "openscad-auto",
+                "-message",
+                &format!(
+                    "⏭️ Done converting: {}
+⏱️ Total rendering time: {}",
+                    source_file.to_string_lossy(),
+                    total_rendering_time_string
+                ),
+                "-execute",
+                &format!("open -R {}", quoted_target_file),
             ])
+            .spawn()
+            .unwrap()
+            .wait()
+            .unwrap();
+    }
+
+    if !args.no_reveal {
+        Command::new("open")
+            .args(vec!["-R", &quoted_target_file])
             .spawn()
             .unwrap()
             .wait()
