@@ -10,6 +10,10 @@ Many scripts are also written in [`fish`](https://fishshell.com/).
 
 Open a Markdown file in either Obsidian (if in a relevant folder) or VSCode.
 
+### `launch-fish-in-dir`
+
+Launch `fish` in the directory of the specified path.
+
 ### `openscad-auto`
 
 Run `openscad` to convert `.scad` file to `.3mf` or `.stl` file with defaults.
