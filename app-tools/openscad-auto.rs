@@ -168,7 +168,7 @@ fn main() {
 
     if !args.no_reveal {
         Command::new("open")
-            .args(vec!["-R", &quoted_target_file])
+            .args(vec!["-R", &target_file.to_string_lossy()])
             .spawn()
             .unwrap()
             .wait()
