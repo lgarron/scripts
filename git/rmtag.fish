@@ -19,4 +19,6 @@ for TAG in $argv
   git tag -d $TAG; or echo "Did not need to remove tag locally"
   echo "--------"
   git push origin :$TAG; or echo "Did not need to remove tag from origin"
+  echo "--------"
+  gh release delete $TAG; or echo "Did not need to remove release from origin"
 end
