@@ -1,7 +1,8 @@
 #!/usr/bin/env -S fish --no-config
 
+set VERSION (version)
+
 function tagpush-check
-  set VERSION (version)
   set PREVIOUS_COMMIT_VERSION (version --previous)
   if test $VERSION = $PREVIOUS_COMMIT_VERSION
     echo "Project version did not change since last commit. Halting `tagpush`." 1>&2
@@ -26,11 +27,11 @@ function retagpush-version
     tagpush-version $TAG
 end
 
-if contains -- "--retag" $argv[]
+if contains -- "--retag" $argv
   tagpush-check || return 1
-  retagpush-version (version)
+  retagpush-version $VERSION
 else
   tagpush-check || return 1
-  tagpush-version (version)
+  tagpush-version $VERSION
 end
 
