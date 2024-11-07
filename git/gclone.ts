@@ -34,6 +34,7 @@ if (!user || !repo) {
 const repo_clone_source = new URL(join("/", user, repo), url).toString();
 const repo_path_parent = join(git_repos_root, url.hostname, user);
 const repo_path = join(repo_path_parent, repo);
+console.log(repo_path);
 
 if (existsSync(join(repo_path, ".git"))) {
   console.log("Repo already checked out!");
@@ -46,7 +47,38 @@ if (existsSync(join(repo_path, ".git"))) {
   console.log("Cloning from:", repo_clone_source);
   console.log("To:", repo_path);
   // Note: we do *not* `await` the result.
-  $`git clone ${repo_clone_source} ${repo_path}`;
+  Bun.spawn(["nohup", "git", "clone", repo_clone_source, repo_path], {
+    stdout: "ignore",
+    stderr: "ignore",
+  });
 }
 
-await Promise.all([await $`open ${repo_path}`, await $`code ${repo_path}`]);
+async function retry(
+  fn: () => Promise<void>,
+  failureHandler: () => void,
+  // biome-ignore lint/style/noInferrableTypes: Explicit types, man.
+  millisecondsBetweenTries: number = 100,
+  // biome-ignore lint/style/noInferrableTypes: Explicit types, man.
+  numRetries: number = 100,
+) {
+  for (let i = 0; i < numRetries; i++) {
+    if (existsSync(repo_path)) {
+      await fn();
+    }
+    await new Promise((resolve) =>
+      setTimeout(resolve, millisecondsBetweenTries),
+    );
+  }
+
+  failureHandler();
+}
+
+retry(
+  async () => {
+    await Promise.all([await $`open ${repo_path}`, await $`code ${repo_path}`]);
+    exit(0);
+  },
+  () => {
+    throw new Error("Could not open repo folder.");
+  },
+);
